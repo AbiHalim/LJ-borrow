@@ -8,7 +8,7 @@ c = conn.cursor()
 
 from flask import Flask
 
-app = Flask(__name__)
+app = Flask(__name__)   # uses Flask to make Rest API
 
 # Sample Users and Records
 abi = User(1, 'abi', 'abishai.halim@gmail.com', '12345678')
@@ -22,7 +22,7 @@ record3 = Record(13, 0, 3, 1, 'abi', 0, 0, 0, 1, 27052024, 420, "yo")
 
 # Users
 
-@app.route('/create_user_<int:UUID>_<string:username>_<string:email>_<string:password_hash>/', methods=['GET', 'POST'])
+@app.route('/create_user_<int:UUID>_<string:username>_<string:email>_<string:password_hash>/', methods=['GET', 'POST'])   # go to localhost:5000//create_user_<int:UUID>_<string:username>_<string:email>_<string:password_hash>/ to make new user
 def create_user(UUID, username, email, password_hash):   # function to insert a python object of class User into database
     new_user = User(UUID, username, email, password_hash)
     with conn:
