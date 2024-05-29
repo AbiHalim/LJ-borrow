@@ -2,20 +2,34 @@ import sqlite3
 from User import User   # python class User
 from Record import Record   # python class Record
 
-conn = sqlite3.connect('lj_borrow.db')   # connects to database in file lj_borrow.db
+conn = sqlite3.connect('lj_borrow.db', check_same_thread=False)   # connects to database in file lj_borrow.db
 conn.execute("PRAGMA foreign_keys = 1")   # enables use of foreign keys
 c = conn.cursor()
 
+from flask import Flask
 
-# Users
+app = Flask(__name__)
+
+# Sample Users and Records
 abi = User(1, 'abi', 'abishai.halim@gmail.com', '12345678')
 ryan = User(2, 'ryan', 'ryan.chan@gmail.com', '12345678')
 joseph = User(3, 'joseph', 'joseph.rama@gmail.com', '12345678')
 
-def create_user(user):   # function to insert a python object of class User into database
+record1 = Record(11, 0, 1, 2, 'ryan', 0, 0, 0, 1, 27052024, 12, "hello")
+record2 = Record(12, 1, 1, 3, 'joseph', 0, 0, 0, 1, 27052024, 69, "masbro")
+record3 = Record(13, 0, 3, 1, 'abi', 0, 0, 0, 1, 27052024, 420, "yo")
+
+
+# Users
+
+@app.route('/create_user_<int:UUID>_<string:username>_<string:email>_<string:password_hash>/', methods=['GET', 'POST'])
+def create_user(UUID, username, email, password_hash):   # function to insert a python object of class User into database
+    new_user = User(UUID, username, email, password_hash)
     with conn:
         c.execute("INSERT INTO users VALUES (:UUID, :username, :email, :password_hash)",
-                  {'UUID': user.UUID, 'username': user.username, 'email': user.email, 'password_hash': user.password_hash})
+                  {'UUID': new_user.UUID, 'username': new_user.username, 'email': new_user.email, 'password_hash': new_user.password_hash})
+    return f"Succesfully created new user, UUID: {new_user.UUID}, username: {new_user.username}, email: {new_user.email}"
+
 
 def delete_user(user_UUID):   # function to delete user from database using user UUID
     with conn:
@@ -23,9 +37,6 @@ def delete_user(user_UUID):   # function to delete user from database using user
 
 
 # Records
-record1 = Record(11, 0, 1, 2, 'ryan', 0, 0, 0, 1, 27052024, 12, "hello")
-record2 = Record(12, 1, 1, 3, 'joseph', 0, 0, 0, 1, 27052024, 69, "masbro")
-record3 = Record(13, 0, 3, 1, 'abi', 0, 0, 0, 1, 27052024, 420, "yo")
 
 def create_record(record):   # function to insert a python object of class Record into database
     with conn:
@@ -95,8 +106,8 @@ def check_valid(record_UUID):   # checks if both receiver and creator marked rec
         print(f'Either creator or receiver has not marked record {record_UUID} as paid, record still active')
         pass
 
-conn.commit()
-conn.close()
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
 
 #creating users table:
 #c.execute("""CREATE TABLE users (
