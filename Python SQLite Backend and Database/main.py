@@ -86,8 +86,6 @@ def creator_paid(user_UUID, record_UUID):   # creator marks record as already be
 def check_valid(record_UUID):   # checks if both receiver and creator marked record as being paid, then makes record inactive
     c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_UUID})
     record = c.fetchone()
-    if record[8] == 1:
-        raise Exception(f"Record {record_UUID} already inactive!")
     if record[6] == 1 and record[7] == 1:  # check if both creator and receiver paid, then set inactive
         with conn:
             c.execute("UPDATE records SET active = 0 WHERE UUID = :record_UUID", {'record_UUID': record_UUID})
@@ -96,7 +94,6 @@ def check_valid(record_UUID):   # checks if both receiver and creator marked rec
     else:
         print(f'Either creator or receiver has not marked record {record_UUID} as paid, record still active')
         pass
-
 
 conn.commit()
 conn.close()
