@@ -19,33 +19,42 @@ record1 = Record(11, 0, 1, 2, 'ryan', 0, 0, 0, 1, 27052024, 12, "hello")
 record2 = Record(12, 1, 1, 3, 'joseph', 0, 0, 0, 1, 27052024, 69, "masbro")
 record3 = Record(13, 0, 3, 1, 'abi', 0, 0, 0, 1, 27052024, 420, "yo")
 
-
 # Users
 
-@app.route('/create_user_<int:UUID>_<string:username>_<string:email>_<string:password_hash>/', methods=['GET', 'POST'])   # go to localhost:5000//create_user_<int:UUID>_<string:username>_<string:email>_<string:password_hash>/ to make new user
+# go to localhost:5000//create_user/uuid=<int:UUID>&username=<string:username>&email=<string:email>&password_hash=<string:password_hash>/ to make new user
+@app.route('/create_user/uuid=<int:UUID>&username=<string:username>&email=<string:email>&password_hash=<string:password_hash>/', methods=['GET'])
 def create_user(UUID, username, email, password_hash):   # function to insert a python object of class User into database
     new_user = User(UUID, username, email, password_hash)
     with conn:
         c.execute("INSERT INTO users VALUES (:UUID, :username, :email, :password_hash)",
                   {'UUID': new_user.UUID, 'username': new_user.username, 'email': new_user.email, 'password_hash': new_user.password_hash})
-    return f"Succesfully created new user, UUID: {new_user.UUID}, username: {new_user.username}, email: {new_user.email}"
+    return f"Succesfully created new user <br>UUID: {new_user.UUID} <br>username: {new_user.username} <br>email: {new_user.email}"
 
-
-def delete_user(user_UUID):   # function to delete user from database using user UUID
+# go to localhost:5000//delete_user/uuid=<int:UUID>/ to delete user
+@app.route('/delete_user/uuid=<int:UUID>/', methods=['GET'])
+def delete_user(UUID):   # function to delete user from database using user UUID
     with conn:
-        c.execute("DELETE FROM users WHERE UUID = :UUID", {'UUID': user_UUID})
+        c.execute("DELETE FROM users WHERE UUID = :UUID", {'UUID': UUID})
+    return f"Succesfully deleted user with UUID {UUID}"
 
 
 # Records
 
-def create_record(record):   # function to insert a python object of class Record into database
+# go to localhost:5000//create_record/uuid=<int:UUID>&type=<int:type>&creator_id=<int:creator_id>&receiver_id=<int:receiver_id>&receiver_name=<string:receiver_name>&date_created=<int:date_created>&amount=<int:amount>&note=<string:note>/ to make new record
+@app.route('/create_record/uuid=<int:UUID>&type=<int:type>&creator_id=<int:creator_id>&receiver_id=<int:receiver_id>&receiver_name=<string:receiver_name>&date_created=<int:date_created>&amount=<int:amount>&note=<string:note>/', methods=['GET'])   # for now only accept int for amount
+def create_record(UUID, type, creator_id, receiver_id, receiver_name, date_created, amount, note):   # function to insert a python object of class Record into database
+    new_record = Record(UUID, type, creator_id, receiver_id, receiver_name, 0, 0, 0, 1, date_created, amount, note)
     with conn:
         c.execute("INSERT INTO records VALUES (:UUID, :type, :creator_id, :receiver_id, :receiver_name, :confirmed, :receiver_paid, :creator_paid, :active, :date_created, :amount, :note)",
-                  {'UUID':record.UUID, 'type':record.type, 'creator_id':record.creator_id, 'receiver_id':record.receiver_id, 'receiver_name':record.receiver_name, 'confirmed':0, 'receiver_paid':0, 'creator_paid':0, 'active':1, 'date_created':record.date_created, 'amount':record.amount, 'note':record.note})
+                  {'UUID':new_record.UUID, 'type':new_record.type, 'creator_id':new_record.creator_id, 'receiver_id':new_record.receiver_id, 'receiver_name':new_record.receiver_name, 'confirmed':0, 'receiver_paid':0, 'creator_paid':0, 'active':1, 'date_created':new_record.date_created, 'amount':new_record.amount, 'note':new_record.note})
+    return f"Succesfully created new record <br>UUID: {new_record.UUID} <br>type: {new_record.type} <br>creator_id: {new_record.creator_id} <br>receiver_id: {new_record.receiver_id} <br>receiver_name: {new_record.receiver_name} <br>date_created: {new_record.date_created} <br>amount: {new_record.amount} <br>note: {new_record.note}"
 
+# go to localhost:5000//delete_record/record_uuid=<int:record_UUID>/ to delete record
+@app.route('/delete_record/record_uuid=<int:record_UUID>/', methods=['GET'])
 def delete_record(record_UUID):   # function to delete record from database using record_UUID
     with conn:
         c.execute("DELETE FROM records WHERE UUID = :UUID", {'UUID': record_UUID})
+    return f"Succesfully deleted record with UUID {record_UUID}"
 
 def confirm(user_UUID, record_UUID):   # receiver confirms record (as being correct)
     c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_UUID})
