@@ -117,7 +117,15 @@ struct ContentView: View {
                         .stroke(Color.gray,
                                 lineWidth: 1.5))
                     .frame(width: 275, height: 40)
+                TextField("Password", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
                     .padding()
+                    .background(Color.white)
+                    .overlay(RoundedRectangle(cornerRadius: 5)
+                        .stroke(Color.gray,
+                                lineWidth: 1.5))
+                    .frame(width: 275, height: 40)
+                    .padding()
+
                 Button("Sign In") {
                     /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/ /*@END_MENU_TOKEN@*/
                 }
@@ -125,11 +133,10 @@ struct ContentView: View {
                 .background(Color.gray)
                 .foregroundColor(.white)
                 .overlay(RoundedRectangle(cornerRadius: 5)
-                    .stroke(Color.gray,
-                            lineWidth: 1.5))
+                    .stroke(Color.gray,lineWidth: 1.5))
                 .frame(width: 275, height: 40)
             }
-            .padding(.bottom, 200)
+            .padding(.bottom, 175)
         }
     }
 }
