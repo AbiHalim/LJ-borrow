@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "LJ Borrow login page background.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "LJ Borrow login page background.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
