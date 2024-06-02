@@ -128,7 +128,9 @@ struct ContentView: View {
                         .frame(width: 275, height: 40)
                         .padding()
                     Button("Sign In")    {
-                        authenticateUser(username: username, password: password)
+                        Task{
+                            await loginAPIcall(username: username, password: password)
+                        }
                     }
                     .padding()
                     .background(Color.blue)
@@ -154,20 +156,39 @@ struct ContentView: View {
         }
     }
     
-    func authenticateUser(username: String, password: String) {
-        if username == "josephrama" {
-            wrongUsername = 0
-            if password == "jomok" {
-                wrongPassword = 0
-                showingLoginScreen = true
+    func loginAPIcall(username: String, password: String) async {
+        
+        //setting up post request
+        let url = URL(string: "http://localhost:5000//log_in/username=\(username)&password_hash=\(password)/")!
+        print("url: \(url)")
+
+        do {
+            let (_, response) = try await URLSession(configuration: URLSessionConfiguration.default).data(from: url)
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                switch httpResponse.statusCode {
+                    case 404:
+                        wrongUsername = 2
+                        print("wrong username, 404")
+                    case 403:
+                        wrongPassword = 2
+                        print("wrong password, 403")
+                    case 200:
+                        wrongUsername = 0
+                        wrongPassword = 0
+                        showingLoginScreen = true
+                        print("logged in")
+                    default:
+                        print("Received status code \(httpResponse.statusCode)")
+                }
             } else {
-                wrongPassword = 2
+                print("invalid response received")
             }
-        } else {
-            wrongUsername = 2
+
+        } catch {
+            print("Failed to perform API call: \(error)")
         }
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {

@@ -37,12 +37,9 @@ def delete_user(UUID):   # function to delete user from database using user UUID
         c.execute("DELETE FROM users WHERE UUID = :UUID", {'UUID': UUID})
     return f"Succesfully deleted user with UUID {UUID}"
 
-@app.route('/log_in/', methods=['GET', 'POST'])
-def log_in():
-    content_type = request.headers.get('Content-Type')
-    data = request.json
-    username = data.get('username')
-    password = data.get('password')
+# go to localhost:5000//log_in/
+@app.route('/log_in/username=<string:username>&password_hash=<string:password_hash>/', methods=['GET'])
+def log_in(username, password_hash):
 
     # if wrong username
     c.execute("SELECT username, password_hash FROM users WHERE username = :username", {'username': username})
@@ -52,13 +49,23 @@ def log_in():
         return 'User not found', 404   # return 404 user not found
 
     # if wrong password
-    if username_pass[1] != password:
+    if username_pass[1] != password_hash:
         return 'Wrong password', 403   # return 403 forbidden
 
     return 'Succesful log in', 200
 
+# get updated latest UUID for making each account
+c.execute("SELECT COUNT(*) FROM users")
+rowcount = c.fetchone()[0]
+latest_UUID = rowcount + 1
 
-# Records
+@app.route('/register_account/username=<string:username>&email=<string:email>&password_hash=<string:password_hash>/', methods=['GET'])
+def register_account(username, email, password_hash):
+    global latest_UUID
+    create_user(latest_UUID, username, email, password_hash)
+    latest_UUID += 1
+
+    return 'Succesfully made new account', 200
 
 # go to localhost:5000//create_record/uuid=<int:UUID>&type=<int:type>&creator_id=<int:creator_id>&receiver_id=<int:receiver_id>&receiver_name=<string:receiver_name>&date_created=<int:date_created>&amount=<int:amount>&note=<string:note>/ to make new record
 @app.route('/create_record/uuid=<int:UUID>&type=<int:type>&creator_id=<int:creator_id>&receiver_id=<int:receiver_id>&receiver_name=<string:receiver_name>&date_created=<int:date_created>&amount=<int:amount>&note=<string:note>/', methods=['GET'])   # for now only accept int for amount
