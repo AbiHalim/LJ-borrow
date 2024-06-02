@@ -11,10 +11,11 @@ struct RegisterView: View {
     
     @State private var username = ""
     @State private var password = ""
-    @State private var re_enter_password = ""
+    @State private var reEnterPassword = ""
     @State private var email = ""
-    @State private var bad_email = 0
-    @State private var not_matching_password = 0
+    @State private var badEmail = 0
+    @State private var notMatchingPassword = 0
+    @State private var showingRegisteredAccount = false
     
     var body: some View {
         ZStack{
@@ -40,7 +41,7 @@ struct RegisterView: View {
                     .overlay(RoundedRectangle(cornerRadius: 5)
                         .stroke(Color.gray, lineWidth: 1.5))
                     .overlay(RoundedRectangle(cornerRadius: 5)
-                        .stroke(Color.red, lineWidth: CGFloat(bad_email)))  // turns red if email doesnt match format
+                        .stroke(Color.red, lineWidth: CGFloat(badEmail)))  // turns red if email doesnt match format
                     .frame(width: 275, height: 40)
                     .padding()
                 SecureField("Password", text: $password)
@@ -52,7 +53,7 @@ struct RegisterView: View {
                     .overlay(RoundedRectangle(cornerRadius: 5)
                         .stroke(Color.gray, lineWidth: 1.5))
                     .frame(width: 275, height: 40)
-                SecureField("Re-enter Password", text: $re_enter_password)
+                SecureField("Re-enter Password", text: $reEnterPassword)
                     .textContentType(.username)
                     .autocapitalization(.none)
                     .autocorrectionDisabled()
@@ -61,12 +62,12 @@ struct RegisterView: View {
                     .overlay(RoundedRectangle(cornerRadius: 5)
                         .stroke(Color.gray, lineWidth: 1.5))
                     .overlay(RoundedRectangle(cornerRadius: 5)
-                        .stroke(Color.red, lineWidth: CGFloat(not_matching_password)))   //   red if doesnt match
+                        .stroke(Color.red, lineWidth: CGFloat(notMatchingPassword)))   //   red if doesnt match
                     .frame(width: 275, height: 40)
                     .padding()
                 Button("Register")    {
                     Task{
-                        await register_accountAPIcall(username: username, email: email, password: password, re_enter_password: re_enter_password)
+                        await register_accountAPIcall(username: username, email: email, password: password, re_enter_password: reEnterPassword)
                     }
                 }
                 .padding()
@@ -82,6 +83,9 @@ struct RegisterView: View {
                         .underline()
                         .navigationBarBackButtonHidden(true)
                 }
+                
+                NavigationLink(destination: Text("Succesfully registered new account!"), isActive: $showingRegisteredAccount) {EmptyView()}
+                
             }
             .padding(.bottom, 125)
         }
@@ -99,10 +103,10 @@ struct RegisterView: View {
         
         if validateEmail(enteredEmail: email) {
             print("valid email")
-            bad_email = 0
+            badEmail = 0
             
             if password == re_enter_password {
-                not_matching_password = 0
+                notMatchingPassword = 0
                 //setting up post request
                 let url = URL(string: "http://localhost:5000//register_account/username=\(username)&email=\(email)&password_hash=\(password)/")!
 
@@ -113,7 +117,7 @@ struct RegisterView: View {
                         switch httpResponse.statusCode {
                             case 200:
                                 print("registered account")
-                                
+                                showingRegisteredAccount = true
                             default:
                                 print("Received status code \(httpResponse.statusCode)")
                         }
@@ -127,12 +131,12 @@ struct RegisterView: View {
                 
                 } else {
                     print("Passwords don't match")
-                    not_matching_password = 1
+                    notMatchingPassword = 1
                 }
                 
         } else {
             print("Invalid email")
-            bad_email = 1
+            badEmail = 1
         }
     }
     
