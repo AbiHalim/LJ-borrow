@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2777bb6a-0dc1-49dd-868d-5093236cd68b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.pbxproj" afterDir="false" />
+    <list default="true" id="2777bb6a-0dc1-49dd-868d-5093236cd68b" name="Changes" comment="Added log in function with Post request">
       <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.xcworkspace/xcuserdata/abi.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.xcworkspace/xcuserdata/abi.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ContentView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ContentView.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/SecondView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/RegisterView.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/RegisterView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/RegisterView.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python SQLite Backend and Database/lj_borrow.db" beforeDir="false" afterPath="$PROJECT_DIR$/Python SQLite Backend and Database/lj_borrow.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Python SQLite Backend and Database/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python SQLite Backend and Database/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,6 +39,19 @@
       <option name="presentableId" value="Default" />
       <updated>1717227997065</updated>
     </task>
+    <task id="LOCAL-00001" summary="Added log in function with Post request">
+      <option name="closed" value="true" />
+      <created>1717329737729</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1717329737729</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added log in function with Post request" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added log in function with Post request" />
   </component>
 </project>
