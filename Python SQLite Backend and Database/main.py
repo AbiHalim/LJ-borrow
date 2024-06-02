@@ -46,7 +46,7 @@ def log_in():
 
     # if wrong username
     c.execute("SELECT username, password_hash FROM users WHERE username = :username", {'username': username})
-    username_pass = c.fetchone()
+    username_pass = c.fetchone()  # returns tuple with (username, password) if there exists user matching username
 
     if not username_pass:
         return 'User not found', 404   # return 404 user not found
