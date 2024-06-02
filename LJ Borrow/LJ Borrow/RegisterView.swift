@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SecondView: View {
+struct RegisterView: View {
     var body: some View {
         ZStack{
             Image("LJ Borrow login page background")
@@ -51,6 +51,7 @@ struct SecondView: View {
                 .overlay(RoundedRectangle(cornerRadius: 5)
                     .stroke(Color.gray, lineWidth: 1.5))
                 .frame(width: 275, height: 40)
+                .padding()
                 NavigationLink(destination: ContentView()) {
                     Text("Already have an account? Sign in now")
                         .foregroundColor(.black)
@@ -64,8 +65,8 @@ struct SecondView: View {
     }
 }
     
-struct SecondView_Previews: PreviewProvider {
+struct RegisterView_Previews: PreviewProvider {
     static var previews: some View {
-        SecondView()
+        RegisterView()
     }
 }

@@ -8,6 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var username = ""
+    @State private var password = ""
+    @State private var wrongUsername = 0
+    @State private var wrongPassword = 0
+    @State private var showingLoginScreen = false
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -93,47 +100,74 @@ struct ContentView: View {
                                 .font(.system(size: 20, weight:
                                         .semibold, design: .rounded))
                                 .padding(.top, 1)
-                            Text("Secure Your Friendship.")
+                            Text("Secure Your Friendships.")
                                 .font(.system(size: 20, weight: .semibold, design: .rounded))
                         }
                         .tag(5)
                     }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                         .background(Color.clear)
-                    TextField("Email Address or Username", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+                    TextField("Username", text: $username)
+                        .autocapitalization(.none)
+                        .autocorrectionDisabled()
                         .padding()
                         .background(Color.white)
                         .overlay(RoundedRectangle(cornerRadius: 5)
                             .stroke(Color.gray, lineWidth: 1.5))
+                        .overlay(RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.red, lineWidth: CGFloat(wrongUsername))) // turns red if wrong username
                         .frame(width: 275, height: 40)
-                    TextField("Password", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+                    SecureField("Password", text: $password)
+                        .autocapitalization(.none)
+                        .autocorrectionDisabled()
                         .padding()
                         .background(Color.white)
                         .overlay(RoundedRectangle(cornerRadius: 5)
                             .stroke(Color.gray, lineWidth: 1.5))
+                        .overlay(RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.red, lineWidth: CGFloat(wrongPassword))) // turns red if wrong password
                         .frame(width: 275, height: 40)
                         .padding()
                     Button("Sign In")    {
-                        /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/ /*@END_MENU_TOKEN@*/
+                        authenticateUser(username: username, password: password)
                     }
                     .padding()
-                    .background(Color.gray)
+                    .background(Color.blue)
                     .foregroundColor(.white)
-                    .overlay(RoundedRectangle(cornerRadius: 5)
-                        .stroke(Color.gray, lineWidth: 1.5))
+                    .cornerRadius(5)
                     .frame(width: 275, height: 40)
-                    NavigationLink(destination: SecondView()) {
+                    .padding()
+                    
+                    NavigationLink(destination: RegisterView()) {
                         Text("Don't have an account? Register now")
                             .foregroundColor(.black)
                             .padding(.top, 5)
                             .underline()
                             .navigationBarBackButtonHidden(true)
                     }
+                    
+                    NavigationLink(destination: Text("You are logged in as \(username)"), isActive: $showingLoginScreen) {EmptyView()}
+                    
                 }
                 .padding(.bottom, 160)
             }
             .buttonStyle(PlainButtonStyle())
         }
     }
+    
+    func authenticateUser(username: String, password: String) {
+        if username == "josephrama" {
+            wrongUsername = 0
+            if password == "jomok" {
+                wrongPassword = 0
+                showingLoginScreen = true
+            } else {
+                wrongPassword = 2
+            }
+        } else {
+            wrongUsername = 2
+        }
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {

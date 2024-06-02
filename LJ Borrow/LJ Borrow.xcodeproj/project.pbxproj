@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0053BA112C0C6D1B002E0E9E /* SecondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0053BA102C0C6D1B002E0E9E /* SecondView.swift */; };
+		0053BA112C0C6D1B002E0E9E /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0053BA102C0C6D1B002E0E9E /* RegisterView.swift */; };
 		0075B8202C0B098E009B0E21 /* LJ_BorrowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0075B81F2C0B098E009B0E21 /* LJ_BorrowApp.swift */; };
 		0075B8222C0B098E009B0E21 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0075B8212C0B098E009B0E21 /* ContentView.swift */; };
 		0075B8242C0B0990009B0E21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0075B8232C0B0990009B0E21 /* Assets.xcassets */; };
@@ -35,7 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0053BA102C0C6D1B002E0E9E /* SecondView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondView.swift; sourceTree = "<group>"; };
+		0053BA102C0C6D1B002E0E9E /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		0075B81C2C0B098E009B0E21 /* LJ Borrow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LJ Borrow.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0075B81F2C0B098E009B0E21 /* LJ_BorrowApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJ_BorrowApp.swift; sourceTree = "<group>"; };
 		0075B8212C0B098E009B0E21 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -98,7 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				0075B81F2C0B098E009B0E21 /* LJ_BorrowApp.swift */,
-				0053BA102C0C6D1B002E0E9E /* SecondView.swift */,
+				0053BA102C0C6D1B002E0E9E /* RegisterView.swift */,
 				0075B8212C0B098E009B0E21 /* ContentView.swift */,
 				0075B8232C0B0990009B0E21 /* Assets.xcassets */,
 				0075B8252C0B0990009B0E21 /* LJ_Borrow.entitlements */,
@@ -262,7 +262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0053BA112C0C6D1B002E0E9E /* SecondView.swift in Sources */,
+				0053BA112C0C6D1B002E0E9E /* RegisterView.swift in Sources */,
 				0075B8222C0B098E009B0E21 /* ContentView.swift in Sources */,
 				0075B8202C0B098E009B0E21 /* LJ_BorrowApp.swift in Sources */,
 			);

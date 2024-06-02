@@ -6,7 +6,7 @@ conn = sqlite3.connect('lj_borrow.db', check_same_thread=False)   # connects to 
 conn.execute("PRAGMA foreign_keys = 1")   # enables use of foreign keys
 c = conn.cursor()
 
-from flask import Flask
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)   # uses Flask to make Rest API
 
@@ -36,6 +36,26 @@ def delete_user(UUID):   # function to delete user from database using user UUID
     with conn:
         c.execute("DELETE FROM users WHERE UUID = :UUID", {'UUID': UUID})
     return f"Succesfully deleted user with UUID {UUID}"
+
+@app.route('/log_in/', methods=['GET', 'POST'])
+def log_in():
+    content_type = request.headers.get('Content-Type')
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+
+    # if wrong username
+    c.execute("SELECT username, password_hash FROM users WHERE username = :username", {'username': username})
+    username_pass = c.fetchone()
+
+    if not username_pass:
+        return 'User not found', 404   # return 404 user not found
+
+    # if wrong password
+    if username_pass[1] != password:
+        return 'Wrong password', 403   # return 403 forbidden
+
+    return 'Succesful log in', 200
 
 
 # Records
