@@ -10,6 +10,7 @@ import SwiftUI
 struct RegisterView: View {
     
     @StateObject var viewModel = RegisterViewModel()
+    @State var showLoginView = false
     
     var body: some View {
         ZStack{
@@ -91,6 +92,8 @@ struct RegisterView: View {
                 .frame(width: 275, height: 40)
                 .padding()
                 
+                //Button("Test") {viewModel.showingRegisteredAccount = true}
+                
                 NavigationLink(destination: LoginView()) {
                     Text("Already have an account? Sign in now")
                         .foregroundColor(.black)
@@ -98,11 +101,57 @@ struct RegisterView: View {
                         .underline()
                         .navigationBarBackButtonHidden(true)
                 }
-                
-                NavigationLink(destination: Text("Succesfully registered new account!"), isActive: $viewModel.showingRegisteredAccount) {EmptyView()}
-                
             }
             .padding(.bottom, 125)
+            
+            NavigationLink("", destination:  LoginView(), isActive: $showLoginView)
+            ZStack {
+                if viewModel.showingRegisteredAccount {
+                Color.clear
+                  .ignoresSafeArea()
+
+                ZStack {
+                  VStack {
+                      HStack {
+                          Text("Succesfully registered account")
+                              .multilineTextAlignment(.center)
+                              .foregroundColor(Color.black)
+                              .font(.system(size: 24))
+                      }
+                    .padding(.bottom, 20)
+                    .padding(.horizontal, 70)
+
+                    HStack {
+                      Button(action: {
+                        showLoginView = true
+                      }, label: {
+                        Text("Go to Log In")
+                          .foregroundColor(Color.white)
+                          .padding(.top, 15)
+                          .padding(.bottom, 15)
+                          .padding(.trailing, 55)
+                          .padding(.leading, 55)
+                          .background(Color.blue)
+                          .cornerRadius(5)
+                          .shadow(color: Color.black.opacity(0.07), radius: 40, x: 0, y: 5)
+                      })
+                    }
+                    .padding(.bottom, 0)
+                    .padding(.horizontal, 35)
+                    .padding(.top, 15)
+                  }
+                }
+                .frame(height: 250)
+                .frame(width: 350)
+                .background(Color.white)
+                .cornerRadius(25)
+                .padding(.horizontal, 30)
+                .shadow(color: Color.black.opacity(0.3), radius: 20, x: 0, y: 5)
+
+              }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+            .ignoresSafeArea()
         }
     }
 }
