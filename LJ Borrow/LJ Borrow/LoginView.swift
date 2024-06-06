@@ -158,7 +158,7 @@ struct ContentView: View {
     
     func loginAPIcall(username: String, password: String) async {
         
-        //setting up post request
+        //setting up request
         let url = URL(string: "http://localhost:5000//log_in/username=\(username)&password_hash=\(password)/")!
         print("url: \(url)")
 
