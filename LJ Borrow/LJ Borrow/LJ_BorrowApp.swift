@@ -11,7 +11,7 @@ import SwiftUI
 struct LJ_BorrowApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LoginView()
         }
     }
 }

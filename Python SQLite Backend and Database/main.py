@@ -40,7 +40,6 @@ def delete_user(UUID):   # function to delete user from database using user UUID
 # go to localhost:5000//log_in/
 @app.route('/log_in/username=<string:username>&password_hash=<string:password_hash>/', methods=['GET'])
 def log_in(username, password_hash):
-
     # if wrong username
     c.execute("SELECT username, password_hash FROM users WHERE username = :username", {'username': username})
     username_pass = c.fetchone()  # returns tuple with (username, password) if there exists user matching username
@@ -62,6 +61,12 @@ latest_UUID = rowcount + 1
 @app.route('/register_account/username=<string:username>&email=<string:email>&password_hash=<string:password_hash>/', methods=['GET'])
 def register_account(username, email, password_hash):
     global latest_UUID
+    c.execute("SELECT username FROM users WHERE username = :username", {'username': username})
+    existing_user = c.fetchone()
+
+    if existing_user:
+        return 'Username already taken', 409
+
     create_user(latest_UUID, username, email, password_hash)
     latest_UUID += 1
 

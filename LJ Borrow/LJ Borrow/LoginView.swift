@@ -7,13 +7,9 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct LoginView: View {
     
-    @State private var username = ""
-    @State private var password = ""
-    @State private var wrongUsername = 0
-    @State private var wrongPassword = 0
-    @State private var showingLoginScreen = false
+    @StateObject var viewModel = LoginViewModel()
     
     var body: some View {
         NavigationStack {
@@ -106,7 +102,21 @@ struct ContentView: View {
                         .tag(5)
                     }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                         .background(Color.clear)
-                    TextField("Username", text: $username)
+                    
+                    //Login Form
+                    
+                    if !viewModel.errorMessage.isEmpty {
+                        Text(viewModel.errorMessage)
+                            .foregroundColor(Color.red)
+                            .offset(y: -15)
+                    } else {
+                        Text("Bruh")
+                            .foregroundColor(Color.red)
+                            .offset(y: -15)
+                            .hidden()
+                    }
+                    
+                    TextField("Username", text: $viewModel.username)
                         .autocapitalization(.none)
                         .autocorrectionDisabled()
                         .padding()
@@ -114,9 +124,9 @@ struct ContentView: View {
                         .overlay(RoundedRectangle(cornerRadius: 5)
                             .stroke(Color.gray, lineWidth: 1.5))
                         .overlay(RoundedRectangle(cornerRadius: 5)
-                            .stroke(Color.red, lineWidth: CGFloat(wrongUsername))) // turns red if wrong username
+                            .stroke(Color.red, lineWidth: CGFloat(viewModel.wrongUsername))) // turns red if wrong username
                         .frame(width: 275, height: 40)
-                    SecureField("Password", text: $password)
+                    SecureField("Password", text: $viewModel.password)
                         .autocapitalization(.none)
                         .autocorrectionDisabled()
                         .padding()
@@ -124,12 +134,12 @@ struct ContentView: View {
                         .overlay(RoundedRectangle(cornerRadius: 5)
                             .stroke(Color.gray, lineWidth: 1.5))
                         .overlay(RoundedRectangle(cornerRadius: 5)
-                            .stroke(Color.red, lineWidth: CGFloat(wrongPassword))) // turns red if wrong password
+                            .stroke(Color.red, lineWidth: CGFloat(viewModel.wrongPassword))) // turns red if wrong password
                         .frame(width: 275, height: 40)
                         .padding()
                     Button("Sign In")    {
                         Task{
-                            await loginAPIcall(username: username, password: password)
+                            await viewModel.loginAPIcall(username: viewModel.username, password: viewModel.password)
                         }
                     }
                     .padding()
@@ -147,52 +157,17 @@ struct ContentView: View {
                             .navigationBarBackButtonHidden(true)
                     }
                     
-                    NavigationLink(destination: Text("You are logged in as \(username)"), isActive: $showingLoginScreen) {EmptyView()}
+                    NavigationLink(destination: Text("You are logged in as \(viewModel.username)"), isActive: $viewModel.showingLoginScreen) {EmptyView()}
                     
                 }
                 .padding(.bottom, 160)
             }
-            .buttonStyle(PlainButtonStyle())
-        }
-    }
-    
-    func loginAPIcall(username: String, password: String) async {
-        
-        //setting up request
-        let url = URL(string: "http://localhost:5000//log_in/username=\(username)&password_hash=\(password)/")!
-        print("url: \(url)")
-
-        do {
-            let (_, response) = try await URLSession(configuration: URLSessionConfiguration.default).data(from: url)
-            
-            if let httpResponse = response as? HTTPURLResponse {
-                switch httpResponse.statusCode {
-                    case 404:
-                        wrongUsername = 2
-                        print("wrong username, 404")
-                    case 403:
-                        wrongPassword = 2
-                        print("wrong password, 403")
-                    case 200:
-                        wrongUsername = 0
-                        wrongPassword = 0
-                        showingLoginScreen = true
-                        print("logged in")
-                    default:
-                        print("Received status code \(httpResponse.statusCode)")
-                }
-            } else {
-                print("invalid response received")
-            }
-
-        } catch {
-            print("Failed to perform API call: \(error)")
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        LoginView()
     }
 }

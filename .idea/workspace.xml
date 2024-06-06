@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2777bb6a-0dc1-49dd-868d-5093236cd68b" name="Changes" comment="Added log in function with Post request">
+    <list default="true" id="2777bb6a-0dc1-49dd-868d-5093236cd68b" name="Changes" comment="Log in and Register Account">
+      <change afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ViewModels/LoginViewModel.swift" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ViewModels/RegisterViewModel.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.pbxproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.xcworkspace/xcuserdata/abi.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.xcworkspace/xcuserdata/abi.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ContentView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ContentView.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ContentView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/LoginView.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/LJ_BorrowApp.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/LJ_BorrowApp.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/RegisterView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/RegisterView.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Python SQLite Backend and Database/lj_borrow.db" beforeDir="false" afterPath="$PROJECT_DIR$/Python SQLite Backend and Database/lj_borrow.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Python SQLite Backend and Database/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python SQLite Backend and Database/main.py" afterDir="false" />
@@ -47,11 +52,20 @@
       <option name="project" value="LOCAL" />
       <updated>1717329737729</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Log in and Register Account">
+      <option name="closed" value="true" />
+      <created>1717341704981</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1717341704981</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added log in function with Post request" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added log in function with Post request" />
+    <MESSAGE value="Log in and Register Account" />
+    <option name="LAST_COMMIT_MESSAGE" value="Log in and Register Account" />
   </component>
 </project>

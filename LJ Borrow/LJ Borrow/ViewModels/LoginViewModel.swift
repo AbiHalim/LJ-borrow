@@ -7,7 +7,7 @@
 
 import Foundation
 
-class LoginViewViewModel: ObservableObject {
+class LoginViewModel: ObservableObject {
     @Published var username = ""
     @Published var password = ""
     @Published var wrongUsername = 0
