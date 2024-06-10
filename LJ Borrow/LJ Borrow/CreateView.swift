@@ -1,27 +1,24 @@
 //
-//  RecordsView.swift
+//  CreateView.swift
 //  LJ Borrow
 //
-//  Created by Abi on 07/06/24.
+//  Created by Abi on 10/06/24.
 //
 
 import SwiftUI
 
-struct RecordsView: View {
-    
-    @StateObject var viewModel = RecordsViewModel()
-    
+struct CreateView: View {
     var body: some View {
         ZStack{
             Image("LJ Borrow login page background")
                 .edgesIgnoringSafeArea(.all)
             VStack{
-                Text("Records")
+                Text("Create new profile")
             }
         }
     }
 }
 
 #Preview {
-    RecordsView()
+    CreateView()
 }

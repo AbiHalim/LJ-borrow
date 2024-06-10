@@ -19,6 +19,11 @@
 		0075B83E2C0B0990009B0E21 /* LJ_BorrowUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0075B83D2C0B0990009B0E21 /* LJ_BorrowUITestsLaunchTests.swift */; };
 		007F43A22C12A20400F5DFF5 /* RecordsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007F43A12C12A20400F5DFF5 /* RecordsView.swift */; };
 		007F43A42C12A20E00F5DFF5 /* RecordsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007F43A32C12A20E00F5DFF5 /* RecordsViewModel.swift */; };
+		00DBB4A82C16A1F500595726 /* CreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DBB4A72C16A1F500595726 /* CreateView.swift */; };
+		00DBB4AA2C16A1F900595726 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DBB4A92C16A1F900595726 /* ProfileView.swift */; };
+		00DBB4AC2C16A20700595726 /* CreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DBB4AB2C16A20700595726 /* CreateViewModel.swift */; };
+		00DBB4AE2C16A20D00595726 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DBB4AD2C16A20D00595726 /* ProfileViewModel.swift */; };
+		00DBB4B62C16AD5C00595726 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DBB4B52C16AD5C00595726 /* MainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +60,11 @@
 		0075B83D2C0B0990009B0E21 /* LJ_BorrowUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJ_BorrowUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		007F43A12C12A20400F5DFF5 /* RecordsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsView.swift; sourceTree = "<group>"; };
 		007F43A32C12A20E00F5DFF5 /* RecordsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsViewModel.swift; sourceTree = "<group>"; };
+		00DBB4A72C16A1F500595726 /* CreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateView.swift; sourceTree = "<group>"; };
+		00DBB4A92C16A1F900595726 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		00DBB4AB2C16A20700595726 /* CreateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewModel.swift; sourceTree = "<group>"; };
+		00DBB4AD2C16A20D00595726 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		00DBB4B52C16AD5C00595726 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +96,8 @@
 			isa = PBXGroup;
 			children = (
 				0002B78F2C115A4A00132806 /* LoginViewModel.swift */,
+				00DBB4AB2C16A20700595726 /* CreateViewModel.swift */,
+				00DBB4AD2C16A20D00595726 /* ProfileViewModel.swift */,
 				0002B7912C11675A00132806 /* RegisterViewModel.swift */,
 				007F43A32C12A20E00F5DFF5 /* RecordsViewModel.swift */,
 			);
@@ -128,6 +140,9 @@
 				0002B78E2C115A1100132806 /* Other */,
 				0075B81F2C0B098E009B0E21 /* LJ_BorrowApp.swift */,
 				007F43A12C12A20400F5DFF5 /* RecordsView.swift */,
+				00DBB4A72C16A1F500595726 /* CreateView.swift */,
+				00DBB4B52C16AD5C00595726 /* MainView.swift */,
+				00DBB4A92C16A1F900595726 /* ProfileView.swift */,
 				0053BA102C0C6D1B002E0E9E /* RegisterView.swift */,
 				0075B8212C0B098E009B0E21 /* LoginView.swift */,
 				0002B78D2C115A0C00132806 /* ViewModels */,
@@ -291,9 +306,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				0002B7922C11675A00132806 /* RegisterViewModel.swift in Sources */,
+				00DBB4B62C16AD5C00595726 /* MainView.swift in Sources */,
+				00DBB4AA2C16A1F900595726 /* ProfileView.swift in Sources */,
 				0053BA112C0C6D1B002E0E9E /* RegisterView.swift in Sources */,
+				00DBB4A82C16A1F500595726 /* CreateView.swift in Sources */,
 				0075B8222C0B098E009B0E21 /* LoginView.swift in Sources */,
 				007F43A42C12A20E00F5DFF5 /* RecordsViewModel.swift in Sources */,
+				00DBB4AC2C16A20700595726 /* CreateViewModel.swift in Sources */,
+				00DBB4AE2C16A20D00595726 /* ProfileViewModel.swift in Sources */,
 				007F43A22C12A20400F5DFF5 /* RecordsView.swift in Sources */,
 				0075B8202C0B098E009B0E21 /* LJ_BorrowApp.swift in Sources */,
 				0002B7902C115A4A00132806 /* LoginViewModel.swift in Sources */,

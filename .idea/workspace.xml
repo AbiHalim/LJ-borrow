@@ -5,11 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2777bb6a-0dc1-49dd-868d-5093236cd68b" name="Changes" comment="Username must not be taken">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/CreateView.swift" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ProfileView.swift" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/TabBarView.swift" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ViewModels/CreateViewModel.swift" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ViewModels/ProfileViewModel.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.pbxproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.xcworkspace/xcuserdata/abi.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.xcworkspace/xcuserdata/abi.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/LoginView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/LoginView.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/RegisterView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/RegisterView.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python SQLite Backend and Database/lj_borrow.db" beforeDir="false" afterPath="$PROJECT_DIR$/Python SQLite Backend and Database/lj_borrow.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/RecordsView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/RecordsView.swift" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -15,7 +15,7 @@ struct LJ_BorrowApp: App {
     var body: some Scene {
         WindowGroup {
             if LogInViewModel.loggedIn {
-                RecordsView()
+                MainView()
             } else {
                 LoginView()
             }
