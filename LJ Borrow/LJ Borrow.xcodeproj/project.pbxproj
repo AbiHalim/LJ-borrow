@@ -17,6 +17,8 @@
 		0075B8322C0B0990009B0E21 /* LJ_BorrowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0075B8312C0B0990009B0E21 /* LJ_BorrowTests.swift */; };
 		0075B83C2C0B0990009B0E21 /* LJ_BorrowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0075B83B2C0B0990009B0E21 /* LJ_BorrowUITests.swift */; };
 		0075B83E2C0B0990009B0E21 /* LJ_BorrowUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0075B83D2C0B0990009B0E21 /* LJ_BorrowUITestsLaunchTests.swift */; };
+		007F43A22C12A20400F5DFF5 /* RecordsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007F43A12C12A20400F5DFF5 /* RecordsView.swift */; };
+		007F43A42C12A20E00F5DFF5 /* RecordsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007F43A32C12A20E00F5DFF5 /* RecordsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,8 @@
 		0075B8372C0B0990009B0E21 /* LJ BorrowUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LJ BorrowUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0075B83B2C0B0990009B0E21 /* LJ_BorrowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJ_BorrowUITests.swift; sourceTree = "<group>"; };
 		0075B83D2C0B0990009B0E21 /* LJ_BorrowUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJ_BorrowUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		007F43A12C12A20400F5DFF5 /* RecordsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsView.swift; sourceTree = "<group>"; };
+		007F43A32C12A20E00F5DFF5 /* RecordsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,7 @@
 			children = (
 				0002B78F2C115A4A00132806 /* LoginViewModel.swift */,
 				0002B7912C11675A00132806 /* RegisterViewModel.swift */,
+				007F43A32C12A20E00F5DFF5 /* RecordsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -122,6 +127,7 @@
 				0075B8262C0B0990009B0E21 /* Preview Content */,
 				0002B78E2C115A1100132806 /* Other */,
 				0075B81F2C0B098E009B0E21 /* LJ_BorrowApp.swift */,
+				007F43A12C12A20400F5DFF5 /* RecordsView.swift */,
 				0053BA102C0C6D1B002E0E9E /* RegisterView.swift */,
 				0075B8212C0B098E009B0E21 /* LoginView.swift */,
 				0002B78D2C115A0C00132806 /* ViewModels */,
@@ -287,6 +293,8 @@
 				0002B7922C11675A00132806 /* RegisterViewModel.swift in Sources */,
 				0053BA112C0C6D1B002E0E9E /* RegisterView.swift in Sources */,
 				0075B8222C0B098E009B0E21 /* LoginView.swift in Sources */,
+				007F43A42C12A20E00F5DFF5 /* RecordsViewModel.swift in Sources */,
+				007F43A22C12A20400F5DFF5 /* RecordsView.swift in Sources */,
 				0075B8202C0B098E009B0E21 /* LJ_BorrowApp.swift in Sources */,
 				0002B7902C115A4A00132806 /* LoginViewModel.swift in Sources */,
 			);

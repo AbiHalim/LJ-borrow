@@ -157,7 +157,7 @@ struct LoginView: View {
                             .navigationBarBackButtonHidden(true)
                     }
                     
-                    NavigationLink(destination: Text("You are logged in as \(viewModel.username)"), isActive: $viewModel.showingLoginScreen) {EmptyView()}
+                    NavigationLink(destination: RecordsView(), isActive: $viewModel.loggedIn) {EmptyView()}
                     
                 }
                 .padding(.bottom, 160)

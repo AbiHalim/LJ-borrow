@@ -9,9 +9,16 @@ import SwiftUI
 
 @main
 struct LJ_BorrowApp: App {
+    
+    @StateObject var LogInViewModel = LoginViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            LoginView()
+            if LogInViewModel.loggedIn {
+                RecordsView()
+            } else {
+                LoginView()
+            }
         }
     }
 }

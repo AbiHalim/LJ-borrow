@@ -12,7 +12,7 @@ class LoginViewModel: ObservableObject {
     @Published var password = ""
     @Published var wrongUsername = 0
     @Published var wrongPassword = 0
-    @Published var showingLoginScreen = false
+    @Published public var loggedIn = false
     @Published var errorMessage = ""
     
     init() {}
@@ -54,7 +54,7 @@ class LoginViewModel: ObservableObject {
                     case 200:
                         wrongUsername = 0
                         wrongPassword = 0
-                        showingLoginScreen = true
+                        loggedIn = true
                         print("logged in")
                     default:
                         print("Received status code \(httpResponse.statusCode)")
