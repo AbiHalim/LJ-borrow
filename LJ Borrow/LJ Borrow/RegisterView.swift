@@ -104,7 +104,6 @@ struct RegisterView: View {
             }
             .padding(.bottom, 125)
             
-            NavigationLink("", destination:  LoginView(), isActive: $showLoginView)
             ZStack {
                 if viewModel.showingRegisteredAccount {
                 Color.clear
@@ -153,6 +152,8 @@ struct RegisterView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
             .ignoresSafeArea()
         }
+        NavigationStack {}
+            .navigationDestination(isPresented: $showLoginView) {LoginView()}
     }
 }
     

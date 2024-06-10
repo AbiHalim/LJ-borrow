@@ -156,11 +156,11 @@ struct LoginView: View {
                             .underline()
                             .navigationBarBackButtonHidden(true)
                     }
-                    
-                    NavigationLink(destination: RecordsView(), isActive: $viewModel.loggedIn) {EmptyView()}
-                    
                 }
                 .padding(.bottom, 160)
+                
+                NavigationStack {}
+                    .navigationDestination(isPresented: $viewModel.loggedIn) {RecordsView()}
             }
         }
     }
