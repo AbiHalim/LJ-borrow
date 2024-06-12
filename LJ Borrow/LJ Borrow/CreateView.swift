@@ -13,7 +13,7 @@ struct CreateView: View {
             Image("LJ Borrow login page background")
                 .edgesIgnoringSafeArea(.all)
             VStack{
-                Text("Create new profile")
+                Text("Create new record")
             }
         }
     }

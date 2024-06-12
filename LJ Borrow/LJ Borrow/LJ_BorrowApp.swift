@@ -12,9 +12,13 @@ struct LJ_BorrowApp: App {
     
     @StateObject var LogInViewModel = LoginViewModel()
     
+    init() {
+            _ = UserSession.shared // This will load the user credentials at app launch
+        }
+    
     var body: some Scene {
         WindowGroup {
-            if LogInViewModel.loggedIn {
+            if LogInViewModel.loadToken().2 != nil {
                 MainView()
             } else {
                 LoginView()

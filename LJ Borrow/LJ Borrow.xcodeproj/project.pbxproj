@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0002B7902C115A4A00132806 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0002B78F2C115A4A00132806 /* LoginViewModel.swift */; };
 		0002B7922C11675A00132806 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0002B7912C11675A00132806 /* RegisterViewModel.swift */; };
+		0009F0632C184B6F0096D2BC /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0009F0622C184B6F0096D2BC /* UserSession.swift */; };
 		0053BA112C0C6D1B002E0E9E /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0053BA102C0C6D1B002E0E9E /* RegisterView.swift */; };
 		0075B8202C0B098E009B0E21 /* LJ_BorrowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0075B81F2C0B098E009B0E21 /* LJ_BorrowApp.swift */; };
 		0075B8222C0B098E009B0E21 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0075B8212C0B098E009B0E21 /* LoginView.swift */; };
@@ -46,6 +47,7 @@
 /* Begin PBXFileReference section */
 		0002B78F2C115A4A00132806 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		0002B7912C11675A00132806 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
+		0009F0622C184B6F0096D2BC /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		0053BA102C0C6D1B002E0E9E /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		0075B81C2C0B098E009B0E21 /* LJ Borrow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LJ Borrow.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0075B81F2C0B098E009B0E21 /* LJ_BorrowApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJ_BorrowApp.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 			children = (
 				0075B8232C0B0990009B0E21 /* Assets.xcassets */,
 				0075B8252C0B0990009B0E21 /* LJ_Borrow.entitlements */,
+				0009F0622C184B6F0096D2BC /* UserSession.swift */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -136,9 +139,9 @@
 		0075B81E2C0B098E009B0E21 /* LJ Borrow */ = {
 			isa = PBXGroup;
 			children = (
+				0075B81F2C0B098E009B0E21 /* LJ_BorrowApp.swift */,
 				0075B8262C0B0990009B0E21 /* Preview Content */,
 				0002B78E2C115A1100132806 /* Other */,
-				0075B81F2C0B098E009B0E21 /* LJ_BorrowApp.swift */,
 				007F43A12C12A20400F5DFF5 /* RecordsView.swift */,
 				00DBB4A72C16A1F500595726 /* CreateView.swift */,
 				00DBB4B52C16AD5C00595726 /* MainView.swift */,
@@ -316,6 +319,7 @@
 				00DBB4AE2C16A20D00595726 /* ProfileViewModel.swift in Sources */,
 				007F43A22C12A20400F5DFF5 /* RecordsView.swift in Sources */,
 				0075B8202C0B098E009B0E21 /* LJ_BorrowApp.swift in Sources */,
+				0009F0632C184B6F0096D2BC /* UserSession.swift in Sources */,
 				0002B7902C115A4A00132806 /* LoginViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

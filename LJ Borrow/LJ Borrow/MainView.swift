@@ -8,49 +8,42 @@
 import SwiftUI
 
 struct MainView: View {
+    
+    init() {
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor.white
+        
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
+        UITabBar.appearance().tintColor = UIColor.gray
+    }
+    
     var body: some View {
         TabView {
             VStack {
                 RecordsView()
-                Rectangle()
-                    .fill(Color.white)
-                    .frame(height: 100)
-                    .offset(y: -90)
-                    .shadow(color: Color.black.opacity(0.15), radius: 15, x: 0, y: -5)
             }
                 .tabItem {
-                    Image(systemName: "1.circle")
-                    Text("Home")
+                    Image(systemName: "doc.plaintext")
                 }
             
             VStack {
                 CreateView()
-                Rectangle()
-                    .fill(Color.white)
-                    .frame(height: 100)
-                    .offset(y: -90)
-                    .shadow(color: Color.black.opacity(0.15), radius: 15, x: 0, y: -5)
             }
                 .tabItem {
-                    Image(systemName: "2.circle")
-                    Text("Home")
+                    Image("Create Button")
                 }
             
             VStack{
                 ProfileView()
-                Rectangle()
-                    .fill(Color.white)
-                    .frame(height: 100)
-                    .offset(y: -90)
-                    .shadow(color: Color.black.opacity(0.15), radius: 15, x: 0, y: -5)
             }
                 .tabItem {
-                    Image(systemName:"person.crop.circle.fill")
-                    Text("Profile")
+                    Image(systemName:"person.circle.fill")
                 }
-            
-            
         }
+        .navigationBarBackButtonHidden(true)
+        .accentColor(.gray)
     }
 }
 

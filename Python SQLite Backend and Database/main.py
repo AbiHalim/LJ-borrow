@@ -7,8 +7,39 @@ conn.execute("PRAGMA foreign_keys = 1")   # enables use of foreign keys
 c = conn.cursor()
 
 from flask import Flask, request, jsonify
+from itsdangerous import URLSafeTimedSerializer as Serializer, BadSignature, SignatureExpired  # generate login tokens
+from functools import wraps
 
 app = Flask(__name__)   # uses Flask to make Rest API
+app.config['SECRET_KEY'] = 'lengjai'
+
+# Generate token for app log in
+def generate_token(user_id):
+    s = Serializer(app.config['SECRET_KEY'])
+    print('generated token:', s.dumps({'user_id': user_id}))
+    return s.dumps({'user_id': user_id})
+
+# Protected routes requiring token
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = request.headers.get('x-access-tokens')
+        if not token:
+            return jsonify({'message': 'Token is missing'}), 403
+        try:
+            s = Serializer(app.config['SECRET_KEY'])
+            data = s.loads(token)
+            current_user = get_user_by_id(data['user_id'])
+        except SignatureExpired:
+            return jsonify({'message': 'Token has expired'}), 403
+        except BadSignature:
+            return jsonify({'message': 'Invalid token'}), 403
+        return f(current_user, *args, **kwargs)
+    return decorated
+
+def get_user_by_id(UUID):
+    with conn:
+        c.execute("SELECT FROM users WHERE UUID = :UUID", {'UUID': UUID})
 
 # Sample Users and Records
 abi = User(1, 'abi', 'abishai.halim@gmail.com', '12345678')
@@ -41,17 +72,19 @@ def delete_user(UUID):   # function to delete user from database using user UUID
 @app.route('/log_in/username=<string:username>&password_hash=<string:password_hash>/', methods=['GET'])
 def log_in(username, password_hash):
     # if wrong username
-    c.execute("SELECT username, password_hash FROM users WHERE username = :username", {'username': username})
-    username_pass = c.fetchone()  # returns tuple with (username, password) if there exists user matching username
+    c.execute("SELECT username, password_hash, UUID FROM users WHERE username = :username", {'username': username})
+    userinfo = c.fetchone()  # returns tuple with (username, password, UUID) if there exists user matching username
 
-    if not username_pass:
+    if not userinfo:
         return 'User not found', 404   # return 404 user not found
 
     # if wrong password
-    if username_pass[1] != password_hash:
+    if userinfo[1] != password_hash:
         return 'Wrong password', 403   # return 403 forbidden
 
-    return 'Succesful log in', 200
+    token = generate_token(userinfo[2])
+    print(f'logged in, token: {token}')
+    return jsonify({"token": token, "userUUID": userinfo[2]}), 200
 
 # get updated latest UUID for making each account
 c.execute("SELECT COUNT(*) FROM users")
@@ -146,6 +179,11 @@ def check_valid(record_UUID):   # checks if both receiver and creator marked rec
     else:
         print(f'Either creator or receiver has not marked record {record_UUID} as paid, record still active')
         pass
+
+@app.route('/protected', methods=['GET'])
+@token_required
+def protected(current_user):
+    return jsonify({'message': 'This is protected', 'user': current_user.username})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

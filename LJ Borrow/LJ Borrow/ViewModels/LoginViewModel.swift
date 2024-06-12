@@ -15,7 +15,24 @@ class LoginViewModel: ObservableObject {
     @Published public var loggedIn = false
     @Published var errorMessage = ""
     
-    init() {}
+    init() {
+            let userSession = UserSession.shared
+            self.username = userSession.username ?? ""
+            self.loggedIn = userSession.username != nil
+        }
+    
+    func saveCredentials(token: String, username: String, userUUID: Int) {
+        UserDefaults.standard.set(token, forKey: "authToken")
+        UserSession.shared.saveUserCredentials(username: username, userUUID: userUUID)
+    }
+
+    func loadToken() -> (token: String?, username: String?, userUUID: String?) {
+        
+        let token = UserDefaults.standard.string(forKey: "authToken")
+        let username = UserDefaults.standard.string(forKey: "username")
+        let userUUID = UserDefaults.standard.string(forKey: "userUUID")
+        return (token, username, userUUID)
+    }
     
     func loginAPIcall(username: String, password: String) async {
         wrongUsername = 0
@@ -39,8 +56,8 @@ class LoginViewModel: ObservableObject {
         print("url: \(url)")
 
         do {
-            let (_, response) = try await URLSession(configuration: URLSessionConfiguration.default).data(from: url)
-            
+            let (data, response) = try await URLSession(configuration: .default).data(from: url)
+
             if let httpResponse = response as? HTTPURLResponse {
                 switch httpResponse.statusCode {
                     case 404:
@@ -54,8 +71,23 @@ class LoginViewModel: ObservableObject {
                     case 200:
                         wrongUsername = 0
                         wrongPassword = 0
-                        loggedIn = true
-                        print("logged in")
+                        // Print the raw data response
+                        if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                            print("jsonResponse: \(jsonResponse)")
+                            if let token = jsonResponse["token"] as? String,
+                               let userUUID = jsonResponse["userUUID"] as? Int {
+                                saveCredentials(token: token, username: username, userUUID: userUUID)
+                                DispatchQueue.main.async {
+                                    self.loggedIn = true
+                                }
+                            } else {
+                                errorMessage = "Failed to retrieve token or user information"
+                                print("Error: Missing token or userUUID in response")
+                            }
+                        } else {
+                            errorMessage = "Failed to parse JSON response"
+                            print("Error: Failed to parse JSON response")
+                        }
                     default:
                         print("Received status code \(httpResponse.statusCode)")
                 }
@@ -67,6 +99,14 @@ class LoginViewModel: ObservableObject {
             print("Failed to perform API call: \(error)")
         }
     }
+    
+    func logout() {
+            UserDefaults.standard.removeObject(forKey: "authToken")
+            UserSession.shared.clearUserCredentials()
+            DispatchQueue.main.async {
+                self.loggedIn = false
+            }
+        }
     
 }
 

@@ -160,7 +160,9 @@ struct LoginView: View {
                 .padding(.bottom, 160)
                 
                 NavigationStack {}
-                    .navigationDestination(isPresented: $viewModel.loggedIn) {RecordsView()}
+                    .navigationDestination(isPresented: $viewModel.loggedIn) {MainView()
+                        .navigationBarBackButtonHidden(true)}
+
             }
         }
     }
