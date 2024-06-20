@@ -1,6 +1,7 @@
 import sqlite3
 from User import User   # python class User
 from Record import Record   # python class Record
+from datetime import date
 
 conn = sqlite3.connect('lj_borrow.db', check_same_thread=False)   # connects to database in file lj_borrow.db
 conn.execute("PRAGMA foreign_keys = 1")   # enables use of foreign keys
@@ -86,22 +87,22 @@ def log_in(username, password_hash):
     print(f'logged in, token: {token}')
     return jsonify({"token": token, "userUUID": userinfo[2]}), 200
 
-# get updated latest UUID for making each account
+# get updated latest user UUID for making each account
 c.execute("SELECT COUNT(*) FROM users")
 rowcount = c.fetchone()[0]
-latest_UUID = rowcount + 1
+latest_user_UUID = rowcount + 1
 
 @app.route('/register_account/username=<string:username>&email=<string:email>&password_hash=<string:password_hash>/', methods=['GET'])
 def register_account(username, email, password_hash):
-    global latest_UUID
+    global latest_user_UUID
     c.execute("SELECT username FROM users WHERE username = :username", {'username': username})
     existing_user = c.fetchone()
 
     if existing_user:
         return 'Username already taken', 409
 
-    create_user(latest_UUID, username, email, password_hash)
-    latest_UUID += 1
+    create_user(latest_user_UUID, username, email, password_hash)
+    latest_user_UUID += 1
 
     return 'Succesfully made new account', 200
 
@@ -120,6 +121,28 @@ def delete_record(record_UUID):   # function to delete record from database usin
     with conn:
         c.execute("DELETE FROM records WHERE UUID = :UUID", {'UUID': record_UUID})
     return f"Succesfully deleted record with UUID {record_UUID}"
+
+# get updated latest record UUID for making each record
+c.execute("SELECT COUNT(*) FROM records")
+rowcount = c.fetchone()[0]
+latest_record_UUID = rowcount + 1
+
+@app.route('/new_record/type=<int:type>&creator_id=<int:creator_id>&receiver_name=<string:receiver_name>&amount=<int:amount>&note=<string:note>/', methods=['GET'])
+def new_record(type, creator_id, receiver_name, amount, note):
+    global latest_record_UUID
+
+    # find receiver UUID based on receiver_name
+    c.execute("SELECT UUID FROM users WHERE username = :username", {'username': receiver_name})
+    receiver_id = c.fetchone()[0]
+
+    if not receiver_id:
+        receiver_id = 0
+    print(latest_record_UUID, type, creator_id, receiver_id, receiver_name, date.today(), amount, note)
+    create_record(latest_record_UUID, type, creator_id, receiver_id, receiver_name, date.today(), amount, note)
+    latest_record_UUID += 1
+
+    return 'Succesfully made new record', 200
+
 
 def confirm(user_UUID, record_UUID):   # receiver confirms record (as being correct)
     c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_UUID})
