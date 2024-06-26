@@ -5,10 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2777bb6a-0dc1-49dd-868d-5093236cd68b" name="Changes" comment="Username must not be taken">
+      <change afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/Assets.xcassets/Create Button.imageset/Create Button.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/Assets.xcassets/LJ Borrow Create Page Cartoon 1.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/Assets.xcassets/LJ Borrow Create Page Cartoon 1.imageset/LJ Borrow Create Page Cartoon 1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/Assets.xcassets/LJ Borrow Profile View Cartoon 1.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/Assets.xcassets/LJ Borrow Profile View Cartoon 1.imageset/LJ Borrow Profile View Cartoon 1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/Assets.xcassets/LJ Borrow main page background.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/Assets.xcassets/LJ Borrow main page background.imageset/LJ Borrow main page background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/DecimalTextField.swift" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/Record.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.pbxproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.xcworkspace/xcuserdata/abi.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.xcworkspace/xcuserdata/abi.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/Assets.xcassets/Create Button.imageset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/Assets.xcassets/Create Button.imageset/Contents.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/Assets.xcassets/Create Button.imageset/Untitled-1.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/CreateView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/CreateView.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/MainView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/MainView.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ProfileView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ProfileView.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/RecordsView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/RecordsView.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ViewModels/CreateViewModel.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ViewModels/CreateViewModel.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ViewModels/RecordsViewModel.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ViewModels/RecordsViewModel.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Python SQLite Backend and Database/lj_borrow.db" beforeDir="false" afterPath="$PROJECT_DIR$/Python SQLite Backend and Database/lj_borrow.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Python SQLite Backend and Database/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python SQLite Backend and Database/main.py" afterDir="false" />
     </list>

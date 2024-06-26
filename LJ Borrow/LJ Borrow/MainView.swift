@@ -33,6 +33,7 @@ struct MainView: View {
             }
                 .tabItem {
                     Image("Create Button")
+                        .scaleEffect(0.1)
                 }
             
             VStack{

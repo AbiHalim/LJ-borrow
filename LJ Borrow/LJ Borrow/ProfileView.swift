@@ -15,29 +15,51 @@ struct ProfileView: View {
     
     var body: some View {
         ZStack{
-            Image("LJ Borrow login page background")
+            Image("LJ Borrow main page background")
                 .edgesIgnoringSafeArea(.all)
-            VStack{
-                Text("Logged in as \(UserSession.shared.username ?? "user")")
-                Text("UUID: \(UserSession.shared.userUUID ?? 0)")
+            VStack(spacing: 20){
+                Image("LJ Borrow Profile View Cartoon 1")
+                    .scaleEffect(0.6)
+                    .padding(.top, -75)
+                RoundedRectangle(cornerRadius: 30)
+                    .fill(Color.white.opacity(1))
+                    .frame(width: 300, height: 100)
+                    .overlay(
+                        VStack {
+                            Text("Logged in as \(UserSession.shared.username ?? "user")")
+                                .font(.system(size: 20, weight: .semibold, design: .rounded))
+                            Text("User ID: \(UserSession.shared.userUUID ?? 0)")
+                                .font(.system(size: 20, weight: .semibold, design: .rounded))
+                            Text("Email Address")
+                                .font(.system(size: 20, weight: .semibold, design: .rounded))
+                        }
+                            .foregroundColor(.black)
+                            .padding()
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20) .stroke(Color.gray, lineWidth: 3)
+                    )
+                    .padding(.horizontal)
+                    .padding(.top, -50)
                 Button(action: {
                     LogInViewModel.logout()
                     shouldNavigateToLogin = true
-                    print(shouldNavigateToLogin)
-                }) {
+                }
+                ) {
                     Text("Log Out")
                         .foregroundColor(Color.white)
                         .padding()
                         .background(Color.red)
                         .cornerRadius(5)
                 }
-                .padding(.top, 50)
+                .padding(.top, 0)
+            
+            NavigationStack {}
+                .navigationDestination(isPresented: $shouldNavigateToLogin) {LoginView()
+                    .navigationBarBackButtonHidden(true)}
+                .frame(height:0)
             }
         }
-        
-        NavigationStack {}
-            .navigationDestination(isPresented: $shouldNavigateToLogin) {LoginView()
-                .navigationBarBackButtonHidden(true)}
     }
 }
 

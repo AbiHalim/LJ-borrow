@@ -15,10 +15,13 @@ class CreateViewModel: ObservableObject {
     @Published var errorMessage: String = ""
 
     func newRecordAPIcall() async {
-        guard let amountInt = Int(amount) else {
-            errorMessage = "Please enter a valid amount"
-            return
-        }
+        guard let amountDouble = Double(amount), amountDouble >= 0 else {
+                    errorMessage = "Please enter a valid amount"
+                    return
+                }
+                
+        let scaledAmount = Int(amountDouble * 100) // Scale by 100 to handle cents
+                
         
         guard !receiverName.isEmpty else {
             errorMessage = "Please enter the other user's name"
@@ -26,12 +29,15 @@ class CreateViewModel: ObservableObject {
         }
         
         guard !note.isEmpty else {
-            errorMessage = "Please add a note"
+            errorMessage = "Please enter a note"
             return
         }
         
         errorMessage = ""
-        let urlString = "http://localhost:5000/new_record/type=\(isBorrowing ? 0 : 1)&creator_id=\(UserSession.shared.userUUID ?? 0)&receiver_name=\(receiverName)&amount=\(amountInt)&note=\(note)/"
+        
+        let formattedNote = note.isEmpty ? "null" : note
+        
+        let urlString = "http://localhost:5000/new_record/type=\(isBorrowing ? 0 : 1)&creator_id=\(UserSession.shared.userUUID ?? 0)&receiver_name=\(receiverName)&amount=\(scaledAmount)&note=\(formattedNote)/"
         
         guard let url = URL(string: urlString) else {
             errorMessage = "Failed to create URL"
@@ -43,6 +49,10 @@ class CreateViewModel: ObservableObject {
             
             if let httpResponse = response as? HTTPURLResponse {
                 switch httpResponse.statusCode {
+                    case 400:
+                        errorMessage = "Receiver must be different from creator"
+                    case 404:
+                        errorMessage = "Target user not found"
                     case 200:
                         print("Created new record")
                     default:

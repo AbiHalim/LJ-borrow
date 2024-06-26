@@ -13,16 +13,22 @@ struct CreateView: View {
     
     var body: some View {
         ZStack {
-            Image("LJ Borrow login page background")
+            Image("LJ Borrow main page background")
                 .resizable()
                 .edgesIgnoringSafeArea(.all)
             
-            VStack(spacing: 20) {
-                Text("New Record")
-                    .font(.largeTitle)
-                    .bold()
-                    .foregroundColor(.black)
-                    .padding(.top, 50)
+            VStack {
+                Image("LJ Borrow Create Page Cartoon 1")
+                    .scaleEffect(0.45)
+                    .padding(.top, -175)
+                    .padding(.bottom, -215)
+                Text("Simply Sign.")
+                    .font(.system(size: 20, weight: .semibold, design: .rounded))
+                    .padding(.top, 60)
+                Text("Simply Friendship.")
+                    .font(.system(size: 20, weight: .semibold, design: .rounded))
+                    .padding(.top, -10)
+                    .padding(.bottom, -100)
                 
                 // Error Message
                 if !viewModel.errorMessage.isEmpty {
@@ -36,15 +42,34 @@ struct CreateView: View {
                         .hidden()
                 }
                 
-                TextField("$0.00", text: $viewModel.amount)
-                    .keyboardType(.decimalPad)
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
+                // Amount Input
+                DecimalTextField(text: $viewModel.amount, placeholder: "$0.00")
                     .padding()
-                    .background(Color.white.opacity(0.8))
-                    .cornerRadius(10)
-                    .shadow(radius: 5)
-                    .frame(maxWidth: 320)
-                    .multilineTextAlignment(.trailing)
+                    .background(Color.white)
+                    .overlay(RoundedRectangle(cornerRadius: 5)
+                        .stroke(Color.gray, lineWidth: 1.5))
+                    .frame(width: 275, height: 40)
+                    .padding(.top, 50)
+                    .autocapitalization(.none)
+                
+                TextField("Enter other user's name", text: $viewModel.receiverName)
+                    .padding()
+                    .background(Color.white)
+                    .overlay(RoundedRectangle(cornerRadius: 5)
+                        .stroke(Color.gray, lineWidth: 1.5))
+                    .frame(width: 275, height: 40)
+                    .padding(.top, 25)
+                    .autocapitalization(.none)
+                
+                TextField("Add a note", text: $viewModel.note)
+                    .padding()
+                    .background(Color.white)
+                    .overlay(RoundedRectangle(cornerRadius: 5)
+                        .stroke(Color.gray, lineWidth: 1.5))
+                    .frame(width: 275, height: 40)
+                    .padding(.top, 25)
+                    .padding(.bottom, 20)
+                    .autocapitalization(.none)
                 
                 Picker("Type", selection: $viewModel.isBorrowing) {
                     Text("Borrowed").tag(true)
@@ -54,26 +79,11 @@ struct CreateView: View {
                 .padding()
                 .background(Color.white.opacity(0.8))
                 .cornerRadius(10)
-                .shadow(radius: 5)
-                .frame(maxWidth: 320)
-                
-                TextField("Enter other user's name", text: $viewModel.receiverName)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .autocapitalization(.none)
-                    .padding()
-                    .background(Color.white.opacity(0.8))
-                    .cornerRadius(10)
-                    .shadow(radius: 5)
-                    .frame(maxWidth: 320)
-                
-                TextField("Add a note", text: $viewModel.note)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .autocapitalization(.none)
-                    .padding()
-                    .background(Color.white.opacity(0.8))
-                    .cornerRadius(10)
-                    .shadow(radius: 5)
-                    .frame(maxWidth: 320)
+                .shadow(radius: 1)
+                .frame(maxWidth: 275)
+                .overlay(RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.gray, lineWidth: 1.5)
+                        )
                 
                 Button(action: {
                     Task {
@@ -81,17 +91,14 @@ struct CreateView: View {
                     }
                 }) {
                     Text("Submit")
-                        .font(.headline)
-                        .foregroundColor(.white)
                         .padding()
-                        .frame(maxWidth: 320)
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                        .shadow(radius: 5)
+                        .background(Color.gray)
+                        .foregroundColor(.white)
+                        .cornerRadius(5)
+                        .frame(width: 275, height: 40)
+                        .padding()
                 }
-                .padding(.bottom, 20)
             }
-            .padding()
         }
     }
 }

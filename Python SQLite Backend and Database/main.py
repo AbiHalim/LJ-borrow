@@ -11,7 +11,7 @@ from flask import Flask, request, jsonify
 from itsdangerous import URLSafeTimedSerializer as Serializer, BadSignature, SignatureExpired  # generate login tokens
 from functools import wraps
 
-app = Flask(__name__)   # uses Flask to make Rest API
+app = Flask(__name__)   # uses Flask to make RESTful API
 app.config['SECRET_KEY'] = 'lengjai'
 
 # Generate token for app log in
@@ -42,14 +42,10 @@ def get_user_by_id(UUID):
     with conn:
         c.execute("SELECT FROM users WHERE UUID = :UUID", {'UUID': UUID})
 
-# Sample Users and Records
+# Sample Users
 abi = User(1, 'abi', 'abishai.halim@gmail.com', '12345678')
 ryan = User(2, 'ryan', 'ryan.chan@gmail.com', '12345678')
 joseph = User(3, 'joseph', 'joseph.rama@gmail.com', '12345678')
-
-record1 = Record(11, 0, 1, 2, 'ryan', 0, 0, 0, 1, 27052024, 12, "hello")
-record2 = Record(12, 1, 1, 3, 'joseph', 0, 0, 0, 1, 27052024, 69, "masbro")
-record3 = Record(13, 0, 3, 1, 'abi', 0, 0, 0, 1, 27052024, 420, "yo")
 
 # Users
 
@@ -135,14 +131,30 @@ def new_record(type, creator_id, receiver_name, amount, note):
     c.execute("SELECT UUID FROM users WHERE username = :username", {'username': receiver_name})
     receiver_id = c.fetchone()[0]
 
-    if not receiver_id:
-        receiver_id = 0
+    # check if receiver == creator
+    if receiver_id == creator_id:
+        return 'Creator cant be the same as receiver', 400
+
     print(latest_record_UUID, type, creator_id, receiver_id, receiver_name, date.today(), amount, note)
     create_record(latest_record_UUID, type, creator_id, receiver_id, receiver_name, date.today(), amount, note)
     latest_record_UUID += 1
 
     return 'Succesfully made new record', 200
 
+@app.route('/get_records/user_uuid=<int:user_uuid>', methods=['GET'])
+def get_records(user_uuid):
+    if user_uuid == 0:
+        return 'No user id specified', 404
+
+    c.execute("SELECT * FROM records WHERE creator_id = :user_UUID OR receiver_id = :user_UUID", {'user_UUID': user_uuid})
+    records = c.fetchall()
+
+    #convert records to proper json format
+    keys = ['id', 'type', 'creator_id', 'receiver_id', 'receiver_name', 'confirmed', 'receiver_paid', 'creator_paid', 'active', 'date_created', 'amount', 'note']
+    records_list = [dict(zip(keys, record)) for record in records]
+    records_list.reverse()
+
+    return jsonify(records_list)
 
 def confirm(user_UUID, record_UUID):   # receiver confirms record (as being correct)
     c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_UUID})
