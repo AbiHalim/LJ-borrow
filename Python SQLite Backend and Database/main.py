@@ -129,7 +129,10 @@ def new_record(type, creator_id, receiver_name, amount, note):
 
     # find receiver UUID based on receiver_name
     c.execute("SELECT UUID FROM users WHERE username = :username", {'username': receiver_name})
-    receiver_id = c.fetchone()[0]
+    try:
+        receiver_id = c.fetchone()[0]
+    except TypeError:
+        return 'User not found', 404
 
     # check if receiver == creator
     if receiver_id == creator_id:
@@ -141,7 +144,7 @@ def new_record(type, creator_id, receiver_name, amount, note):
 
     return 'Succesfully made new record', 200
 
-@app.route('/get_records/user_uuid=<int:user_uuid>', methods=['GET'])
+@app.route('/get_records/user_uuid=<int:user_uuid>/', methods=['GET'])
 def get_records(user_uuid):
     if user_uuid == 0:
         return 'No user id specified', 404
@@ -150,26 +153,37 @@ def get_records(user_uuid):
     records = c.fetchall()
 
     #convert records to proper json format
-    keys = ['id', 'type', 'creator_id', 'receiver_id', 'receiver_name', 'confirmed', 'receiver_paid', 'creator_paid', 'active', 'date_created', 'amount', 'note']
+    keys = ['id', 'type', 'creator_id', 'receiver_id', 'associated_name', 'confirmed', 'receiver_paid', 'creator_paid', 'active', 'date_created', 'amount', 'note']
     records_list = [dict(zip(keys, record)) for record in records]
+
+    # check if receiver == logged-in user, then change associated_name to creator name
+    for record in records_list:
+        if record['receiver_id'] == user_uuid:
+            c.execute("SELECT username FROM users WHERE UUID = :creator_id", {'creator_id': record['creator_id']})
+            record['associated_name'] = c.fetchone()[0]
+            print(record['associated_name'])
+
     records_list.reverse()
 
     return jsonify(records_list)
 
-def confirm(user_UUID, record_UUID):   # receiver confirms record (as being correct)
-    c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_UUID})
+@app.route('/confirm_record/user_uuid=<int:user_uuid>&record_uuid=<int:record_uuid>/', methods=['GET'])
+def confirm_record(user_uuid, record_uuid):
+    c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
     record = c.fetchone()
+
     if not record:
-        raise Exception(f"Record {record_UUID} not found!")
+        return "Record {record_uuid} not found!", 404
     if record[5] != 0:
-        raise Exception(f"Record {record_UUID} already confirmed!")
-    if record[3] != user_UUID:
-        raise Exception(f"User {user_UUID} is not receiver of record {record_UUID}!")
-    elif record[3] == user_UUID and record[5] == 0:
+        return "Record {record_uuid} already confirmed!", 409
+    if record[3] != user_uuid:
+        return "User {user_uuid} is not receiver of record {user_uuid}!", 403
+    elif record[3] == user_uuid and record[5] == 0:
         with conn:
-            c.execute("UPDATE records SET confirmed = 1 WHERE UUID = :record_UUID", {'record_UUID' : record_UUID})
-        print(f"Record {record_UUID} confirmed by receiver {user_UUID}")
-        pass
+            c.execute("UPDATE records SET confirmed = 1 WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
+        return "Record {record_uuid} confirmed by receiver {user_uuid}", 200
+
+
 
 def receiver_paid(user_UUID, record_UUID):   # receiver marks record as already being paid
     c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_UUID})

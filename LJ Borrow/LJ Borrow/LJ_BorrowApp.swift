@@ -18,11 +18,7 @@ struct LJ_BorrowApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if LogInViewModel.loadToken().2 != nil {
-                MainView()
-            } else {
-                LoginView()
-            }
+            LoginView()
         }
     }
 }

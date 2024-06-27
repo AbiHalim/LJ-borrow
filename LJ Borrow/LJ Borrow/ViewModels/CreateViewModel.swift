@@ -54,7 +54,7 @@ class CreateViewModel: ObservableObject {
                     case 404:
                         errorMessage = "Target user not found"
                     case 200:
-                        print("Created new record")
+                        errorMessage = "Succesfully created new record"
                     default:
                         errorMessage = "Received status code \(httpResponse.statusCode)"
                 }

@@ -10,6 +10,7 @@ import SwiftUI
 struct CreateView: View {
     
     @StateObject var viewModel = CreateViewModel()
+    @StateObject var recordsViewModel = RecordsViewModel()
     
     var body: some View {
         ZStack {
@@ -34,11 +35,11 @@ struct CreateView: View {
                 if !viewModel.errorMessage.isEmpty {
                     Text(viewModel.errorMessage)
                         .foregroundColor(.red)
-                        .offset(y: -15)
+                        .offset(y: 25)
                 } else {
                     Text("Bruh")
                         .foregroundColor(.red)
-                        .offset(y: -15)
+                        .offset(y: 25)
                         .hidden()
                 }
                 
@@ -88,6 +89,7 @@ struct CreateView: View {
                 Button(action: {
                     Task {
                         await viewModel.newRecordAPIcall()
+                        await recordsViewModel.fetchRecords()
                     }
                 }) {
                     Text("Submit")

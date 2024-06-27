@@ -12,7 +12,7 @@ struct Record: Identifiable, Codable {
     var type: Int
     var creator_id: Int
     var receiver_id: Int
-    var receiver_name: String
+    var associated_name: String
     var confirmed: Int
     var receiver_paid: Int
     var creator_paid: Int
@@ -22,6 +22,10 @@ struct Record: Identifiable, Codable {
     var note: String
     
     var typeDescription: String {
-        type != 0 ? "Borrowed" : "Lent"
+        type != 0 ? "Lent" : "Borrowed"
+    }
+    
+    var adjustedAmount: Double {
+        amount / 100
     }
 }

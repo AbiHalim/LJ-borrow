@@ -19,6 +19,9 @@ class LoginViewModel: ObservableObject {
             let userSession = UserSession.shared
             self.username = userSession.username ?? ""
             self.loggedIn = userSession.username != nil
+            if (loadToken().2 != nil) {
+                loggedIn = true
+            }
         }
     
     func saveCredentials(token: String, username: String, userUUID: Int) {

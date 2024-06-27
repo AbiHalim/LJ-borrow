@@ -27,10 +27,16 @@ struct RecordsView: View {
                     Text(viewModel.errorMessage)
                         .foregroundColor(.red)
                         .padding()
+                        .hidden() // error message only for debugging
+                } else {
+                    Text("Bruh")
+                        .foregroundColor(.red)
+                        .offset(y: 25)
+                        .hidden()
                 }
 
                 List(viewModel.records) { record in
-                    HStack {
+                    VStack {
                         RoundedRectangle(cornerRadius: 30)
                             .fill(Color.white.opacity(1))
                             .frame(width: 350, height: 125)
@@ -38,9 +44,9 @@ struct RecordsView: View {
                                 VStack {
                                     Text(record.active != 0 ? "Active" : "Inactive")
                                         .font(.system(size: 25, weight: .bold, design: .rounded))
-                                    Text("\(record.typeDescription) & \(record.amount, specifier: "%.2f") & \(record.date_created)")
+                                    Text("\(record.typeDescription) $\(record.adjustedAmount, specifier: "%.2f") on \(record.date_created)")
                                         .font(.system(size: 20, weight: .semibold, design: .rounded))
-                                    Text(record.receiver_name)
+                                    Text(record.associated_name)
                                         .font(.system(size: 20, weight: .semibold, design: .rounded))
                                          Text(record.note)
                                         .font(.system(size: 20, weight: .semibold, design: .rounded))
@@ -52,10 +58,42 @@ struct RecordsView: View {
                                 RoundedRectangle(cornerRadius: 20) .stroke(Color.gray, lineWidth: 3)
                             )
                             .padding(.top, 15)
+                        if (record.confirmed == 0 && record.receiver_id == UserSession.shared.userUUID) {
+                            HStack {
+                                Button("Confirm") {
+                                    Task {
+                                        await viewModel.confirmAPIcall(record_id: record.id)
+                                        await viewModel.fetchRecords()
+                                    }
+                                }
+                                .padding(20)
+                                .padding(.horizontal, 15)
+                                .background(Color.green)
+                                .foregroundColor(Color.white)
+                                .cornerRadius(10)
+                                .frame(width: 200, height: 50)
+                                .padding(.trailing, -20)
+                                .padding(.top, 5)
+                                Button("Reject") {
+                                    Task {
+                                        await viewModel.rejectRecordAPIcall(record_id: record.id)
+                                        await viewModel.fetchRecords()
+                                    }
+                                }
+                                .padding(20)
+                                .padding(.horizontal, 15)
+                                .background(Color.red)
+                                .foregroundColor(Color.white)
+                                .cornerRadius(8)
+                                .frame(width: 200, height: 50)
+                                .padding(.top, 5)
+                            }
+                        }
                     }
                 }
                 .refreshable {
                     await viewModel.fetchRecords()
+                    viewModel.errorMessage = ""
                 }
                 .navigationTitle("Records")
             }
