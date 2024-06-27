@@ -58,7 +58,7 @@ struct RecordsView: View {
                                 RoundedRectangle(cornerRadius: 20) .stroke(Color.gray, lineWidth: 3)
                             )
                             .padding(.top, 15)
-                        if (record.confirmed == 0 && record.receiver_id == UserSession.shared.userUUID) {
+                        if (record.confirmed == 0 && record.receiver_id == UserSession.shared.userUUID && record.active == 1) {
                             HStack {
                                 Button("Confirm") {
                                     Task {

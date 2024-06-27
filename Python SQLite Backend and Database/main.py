@@ -161,7 +161,6 @@ def get_records(user_uuid):
         if record['receiver_id'] == user_uuid:
             c.execute("SELECT username FROM users WHERE UUID = :creator_id", {'creator_id': record['creator_id']})
             record['associated_name'] = c.fetchone()[0]
-            print(record['associated_name'])
 
     records_list.reverse()
 
@@ -183,7 +182,21 @@ def confirm_record(user_uuid, record_uuid):
             c.execute("UPDATE records SET confirmed = 1 WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
         return "Record {record_uuid} confirmed by receiver {user_uuid}", 200
 
+@app.route('/reject_record/user_uuid=<int:user_uuid>&record_uuid=<int:record_uuid>/', methods=['GET'])
+def reject_record(user_uuid, record_uuid):
+    c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
+    record = c.fetchone()
 
+    if not record:
+        return "Record {record_uuid} not found!", 404
+    if record[5] != 0:
+        return "Record {record_uuid} already confirmed!", 409
+    if record[3] != user_uuid:
+        return "User {user_uuid} is not receiver of record {user_uuid}!", 403
+    elif record[3] == user_uuid and record[5] == 0:
+        with conn:
+            c.execute("UPDATE records SET active = 0 WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
+        return "Record {record_uuid} set inactive by receiver {user_uuid}", 200
 
 def receiver_paid(user_UUID, record_UUID):   # receiver marks record as already being paid
     c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_UUID})
