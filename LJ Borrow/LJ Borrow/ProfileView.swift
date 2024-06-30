@@ -30,8 +30,6 @@ struct ProfileView: View {
                                 .font(.system(size: 20, weight: .semibold, design: .rounded))
                             Text("User ID: \(UserSession.shared.userUUID ?? 0)")
                                 .font(.system(size: 20, weight: .semibold, design: .rounded))
-                            Text("Email Address")
-                                .font(.system(size: 20, weight: .semibold, design: .rounded))
                         }
                             .foregroundColor(.black)
                             .padding()
