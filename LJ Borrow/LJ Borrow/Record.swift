@@ -8,10 +8,10 @@
 import Foundation
 
 struct Record: Identifiable, Codable {
-    var id: Int
+    var id: String
     var type: Int
-    var creator_id: Int
-    var receiver_id: Int
+    var creator_id: String
+    var receiver_id: String
     var associated_name: String
     var confirmed: Int
     var receiver_paid: Int

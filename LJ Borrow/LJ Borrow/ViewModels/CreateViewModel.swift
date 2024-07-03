@@ -37,7 +37,7 @@ class CreateViewModel: ObservableObject {
         
         let formattedNote = note.isEmpty ? "null" : note
         
-        let urlString = "http://localhost:5000/new_record/type=\(isBorrowing ? 0 : 1)&creator_id=\(UserSession.shared.userUUID ?? 0)&receiver_name=\(receiverName)&amount=\(scaledAmount)&note=\(formattedNote)/"
+        let urlString = "http://localhost:5000/new_record/type=\(isBorrowing ? 0 : 1)&creator_id=\(UserSession.shared.userUUID ?? "null")&receiver_name=\(receiverName)&amount=\(scaledAmount)&note=\(formattedNote)/"
         
         guard let url = URL(string: urlString) else {
             errorMessage = "Failed to create URL"

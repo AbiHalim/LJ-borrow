@@ -2,6 +2,7 @@ import sqlite3
 from User import User   # python class User
 from Record import Record   # python class Record
 from datetime import date
+import uuid
 
 conn = sqlite3.connect('lj_borrow.db', check_same_thread=False)   # connects to database in file lj_borrow.db
 conn.execute("PRAGMA foreign_keys = 1")   # enables use of foreign keys
@@ -42,11 +43,6 @@ def get_user_by_id(UUID):
     with conn:
         c.execute("SELECT FROM users WHERE UUID = :UUID", {'UUID': UUID})
 
-# Sample Users
-abi = User(1, 'abi', 'abishai.halim@gmail.com', '12345678')
-ryan = User(2, 'ryan', 'ryan.chan@gmail.com', '12345678')
-joseph = User(3, 'joseph', 'joseph.rama@gmail.com', '12345678')
-
 # Users
 
 # go to localhost:5000//create_user/uuid=<int:UUID>&username=<string:username>&email=<string:email>&password_hash=<string:password_hash>/ to make new user
@@ -83,27 +79,20 @@ def log_in(username, password_hash):
     print(f'logged in, token: {token}')
     return jsonify({"token": token, "userUUID": userinfo[2]}), 200
 
-# get updated latest user UUID for making each account
-c.execute("SELECT COUNT(*) FROM users")
-rowcount = c.fetchone()[0]
-latest_user_UUID = rowcount + 1
-
 @app.route('/register_account/username=<string:username>&email=<string:email>&password_hash=<string:password_hash>/', methods=['GET'])
 def register_account(username, email, password_hash):
-    global latest_user_UUID
     c.execute("SELECT username FROM users WHERE username = :username", {'username': username})
     existing_user = c.fetchone()
 
     if existing_user:
         return 'Username already taken', 409
 
-    create_user(latest_user_UUID, username, email, password_hash)
-    latest_user_UUID += 1
+    create_user(str(uuid.uuid4()), username, email, password_hash)
 
     return 'Succesfully made new account', 200
 
 # go to localhost:5000//create_record/uuid=<int:UUID>&type=<int:type>&creator_id=<int:creator_id>&receiver_id=<int:receiver_id>&receiver_name=<string:receiver_name>&date_created=<int:date_created>&amount=<int:amount>&note=<string:note>/ to make new record
-@app.route('/create_record/uuid=<int:UUID>&type=<int:type>&creator_id=<int:creator_id>&receiver_id=<int:receiver_id>&receiver_name=<string:receiver_name>&date_created=<int:date_created>&amount=<int:amount>&note=<string:note>/', methods=['GET'])   # for now only accept int for amount
+@app.route('/create_record/uuid=<string:UUID>&type=<int:type>&creator_id=<string:creator_id>&receiver_id=<string:receiver_id>&receiver_name=<string:receiver_name>&date_created=<int:date_created>&amount=<int:amount>&note=<string:note>/', methods=['GET'])
 def create_record(UUID, type, creator_id, receiver_id, receiver_name, date_created, amount, note):   # function to insert a python object of class Record into database
     new_record = Record(UUID, type, creator_id, receiver_id, receiver_name, 0, 0, 0, 1, date_created, amount, note)
     with conn:
@@ -112,23 +101,17 @@ def create_record(UUID, type, creator_id, receiver_id, receiver_name, date_creat
     return f"Succesfully created new record <br>UUID: {new_record.UUID} <br>type: {new_record.type} <br>creator_id: {new_record.creator_id} <br>receiver_id: {new_record.receiver_id} <br>receiver_name: {new_record.receiver_name} <br>date_created: {new_record.date_created} <br>amount: {new_record.amount} <br>note: {new_record.note}"
 
 # go to localhost:5000//delete_record/record_uuid=<int:record_UUID>/ to delete record
-@app.route('/delete_record/record_uuid=<int:record_UUID>/', methods=['GET'])
+@app.route('/delete_record/record_uuid=<string:record_UUID>/', methods=['GET'])
 def delete_record(record_UUID):   # function to delete record from database using record_UUID
     with conn:
         c.execute("DELETE FROM records WHERE UUID = :UUID", {'UUID': record_UUID})
     return f"Succesfully deleted record with UUID {record_UUID}"
 
-# get updated latest record UUID for making each record
-c.execute("SELECT COUNT(*) FROM records")
-rowcount = c.fetchone()[0]
-latest_record_UUID = rowcount + 1
-
-@app.route('/new_record/type=<int:type>&creator_id=<int:creator_id>&receiver_name=<string:receiver_name>&amount=<int:amount>&note=<string:note>/', methods=['GET'])
+@app.route('/new_record/type=<int:type>&creator_id=<string:creator_id>&receiver_name=<string:receiver_name>&amount=<int:amount>&note=<string:note>/', methods=['GET'])
 def new_record(type, creator_id, receiver_name, amount, note):
-    global latest_record_UUID
-
     # find receiver UUID based on receiver_name
     c.execute("SELECT UUID FROM users WHERE username = :username", {'username': receiver_name})
+
     try:
         receiver_id = c.fetchone()[0]
     except TypeError:
@@ -138,13 +121,11 @@ def new_record(type, creator_id, receiver_name, amount, note):
     if receiver_id == creator_id:
         return 'Creator cant be the same as receiver', 400
 
-    print(latest_record_UUID, type, creator_id, receiver_id, receiver_name, date.today(), amount, note)
-    create_record(latest_record_UUID, type, creator_id, receiver_id, receiver_name, date.today(), amount, note)
-    latest_record_UUID += 1
+    create_record(str(uuid.uuid4()), type, creator_id, receiver_id, receiver_name, date.today(), amount, note)
 
     return 'Succesfully made new record', 200
 
-@app.route('/get_records/user_uuid=<int:user_uuid>/', methods=['GET'])
+@app.route('/get_records/user_uuid=<string:user_uuid>/', methods=['GET'])
 def get_records(user_uuid):
     if user_uuid == 0:
         return 'No user id specified', 404
@@ -166,7 +147,7 @@ def get_records(user_uuid):
 
     return jsonify(records_list)
 
-@app.route('/confirm_record/user_uuid=<int:user_uuid>&record_uuid=<int:record_uuid>/', methods=['GET'])
+@app.route('/confirm_record/user_uuid=<string:user_uuid>&record_uuid=<string:record_uuid>/', methods=['GET'])
 def confirm_record(user_uuid, record_uuid):
     c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
     record = c.fetchone()
@@ -182,7 +163,7 @@ def confirm_record(user_uuid, record_uuid):
             c.execute("UPDATE records SET confirmed = 1 WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
         return "Record {record_uuid} confirmed by receiver {user_uuid}", 200
 
-@app.route('/reject_record/user_uuid=<int:user_uuid>&record_uuid=<int:record_uuid>/', methods=['GET'])
+@app.route('/reject_record/user_uuid=<string:user_uuid>&record_uuid=<string:record_uuid>/', methods=['GET'])
 def reject_record(user_uuid, record_uuid):
     c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
     record = c.fetchone()
@@ -247,31 +228,32 @@ def check_valid(record_UUID):   # checks if both receiver and creator marked rec
 def protected(current_user):
     return jsonify({'message': 'This is protected', 'user': current_user.username})
 
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 
 #creating users table:
-#c.execute("""CREATE TABLE users (
-#            UUID integer not null primary key,
-#            username text not null,
-#            email text not null,
-#            password_hash text not null
-#            )""")
+c.execute("""CREATE TABLE users (
+            UUID string not null primary key,
+            username text not null,
+            email text not null,
+            password_hash text not null
+            )""")
 
 #creating records table:
-#c.execute("""CREATE TABLE records (
-#            UUID integer not null primary key,
-#            type int not null,
-#            creator_id integer not null,
-#            receiver_id integer not null,
-#            receiver_name text,
-#            confirmed int not null,
-#            receiver_paid int not null,
-#            creator_paid int not null,
-#            active int not null,
-#            date_created int,
-#            amount real not null,
-#            note text,
-#            FOREIGN KEY (creator_id) REFERENCES users (UUID),
-#            FOREIGN KEY (receiver_id) REFERENCES users (UUID)
-#            )""")
+c.execute("""CREATE TABLE records (
+            UUID string not null primary key,
+            type int not null,
+            creator_id string not null,
+            receiver_id string not null,
+            receiver_name text,
+            confirmed int not null,
+            receiver_paid int not null,
+            creator_paid int not null,
+            active int not null,
+            date_created int,
+            amount real not null,
+            note text,
+            FOREIGN KEY (creator_id) REFERENCES users (UUID),
+            FOREIGN KEY (receiver_id) REFERENCES users (UUID)
+            )""")

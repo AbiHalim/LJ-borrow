@@ -24,7 +24,7 @@ class LoginViewModel: ObservableObject {
             }
         }
     
-    func saveCredentials(token: String, username: String, userUUID: Int) {
+    func saveCredentials(token: String, username: String, userUUID: String) {
         UserDefaults.standard.set(token, forKey: "authToken")
         UserSession.shared.saveUserCredentials(username: username, userUUID: userUUID)
     }
@@ -78,7 +78,7 @@ class LoginViewModel: ObservableObject {
                         if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                             print("jsonResponse: \(jsonResponse)")
                             if let token = jsonResponse["token"] as? String,
-                               let userUUID = jsonResponse["userUUID"] as? Int {
+                               let userUUID = jsonResponse["userUUID"] as? String {
                                 saveCredentials(token: token, username: username, userUUID: userUUID)
                                 DispatchQueue.main.async {
                                     self.loggedIn = true

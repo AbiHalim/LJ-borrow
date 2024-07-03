@@ -35,7 +35,7 @@ class RecordsViewModel: ObservableObject {
     }
     
     func fetchRecords() {
-        let urlString = "http://localhost:5000/get_records/user_uuid=\(UserSession.shared.userUUID ?? 0)"
+        let urlString = "http://localhost:5000/get_records/user_uuid=\(UserSession.shared.userUUID ?? "null")"
         
         guard let url = URL(string: urlString) else {
             errorMessage = "Failed to create URL"
@@ -60,8 +60,8 @@ class RecordsViewModel: ObservableObject {
             .store(in: &self.cancellables)
     }
     
-    func confirmAPIcall(record_id: Int) async {
-        let urlString = "http://localhost:5000/confirm_record/user_uuid=\(UserSession.shared.userUUID ?? 0)&record_uuid=\(record_id)/"
+    func confirmAPIcall(record_id: String) async {
+        let urlString = "http://localhost:5000/confirm_record/user_uuid=\(UserSession.shared.userUUID ?? "null")&record_uuid=\(record_id)/"
         
         guard let url = URL(string: urlString) else {
             errorMessage = "Failed to create URL"
@@ -93,8 +93,8 @@ class RecordsViewModel: ObservableObject {
         }
     }
     
-    func rejectRecordAPIcall(record_id: Int) async {
-        let urlString = "http://localhost:5000/reject_record/user_uuid=\(UserSession.shared.userUUID ?? 0)&record_uuid=\(record_id)/"
+    func rejectRecordAPIcall(record_id: String) async {
+        let urlString = "http://localhost:5000/reject_record/user_uuid=\(UserSession.shared.userUUID ?? "null")&record_uuid=\(record_id)/"
         
         guard let url = URL(string: urlString) else {
             errorMessage = "Failed to create URL"

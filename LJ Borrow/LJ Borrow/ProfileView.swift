@@ -28,7 +28,7 @@ struct ProfileView: View {
                         VStack {
                             Text("Logged in as \(UserSession.shared.username ?? "user")")
                                 .font(.system(size: 20, weight: .semibold, design: .rounded))
-                            Text("User ID: \(UserSession.shared.userUUID ?? 0)")
+                            Text("User ID: \(UserSession.shared.userUUID ?? "null")")
                                 .font(.system(size: 20, weight: .semibold, design: .rounded))
                         }
                             .foregroundColor(.black)

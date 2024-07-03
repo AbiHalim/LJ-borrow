@@ -16,14 +16,14 @@ class UserSession {
     }
 
     var username: String?
-    var userUUID: Int?
+    var userUUID: String?
 
     func loadUserCredentials() {
         self.username = UserDefaults.standard.string(forKey: "username")
-        self.userUUID = UserDefaults.standard.integer(forKey: "userUUID")
+        self.userUUID = UserDefaults.standard.string(forKey: "userUUID")
     }
 
-    func saveUserCredentials(username: String, userUUID: Int) {
+    func saveUserCredentials(username: String, userUUID: String) {
         UserDefaults.standard.set(username, forKey: "username")
         UserDefaults.standard.set(userUUID, forKey: "userUUID")
         self.username = username
