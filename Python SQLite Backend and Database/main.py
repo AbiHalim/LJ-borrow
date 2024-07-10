@@ -153,15 +153,15 @@ def confirm_record(user_uuid, record_uuid):
     record = c.fetchone()
 
     if not record:
-        return "Record {record_uuid} not found!", 404
+        return f"Record {record_uuid} not found!", 404
     if record[5] != 0:
-        return "Record {record_uuid} already confirmed!", 409
+        return f"Record {record_uuid} already confirmed!", 409
     if record[3] != user_uuid:
-        return "User {user_uuid} is not receiver of record {user_uuid}!", 403
+        return f"User {user_uuid} is not receiver of record {user_uuid}!", 403
     elif record[3] == user_uuid and record[5] == 0:
         with conn:
             c.execute("UPDATE records SET confirmed = 1 WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
-        return "Record {record_uuid} confirmed by receiver {user_uuid}", 200
+        return f"Record {record_uuid} confirmed by receiver {user_uuid}", 200
 
 @app.route('/reject_record/user_uuid=<string:user_uuid>&record_uuid=<string:record_uuid>/', methods=['GET'])
 def reject_record(user_uuid, record_uuid):
@@ -169,15 +169,15 @@ def reject_record(user_uuid, record_uuid):
     record = c.fetchone()
 
     if not record:
-        return "Record {record_uuid} not found!", 404
+        return f"Record {record_uuid} not found!", 404
     if record[5] != 0:
-        return "Record {record_uuid} already confirmed!", 409
+        return f"Record {record_uuid} already confirmed!", 409
     if record[3] != user_uuid:
-        return "User {user_uuid} is not receiver of record {user_uuid}!", 403
+        return f"User {user_uuid} is not receiver of record {user_uuid}!", 403
     elif record[3] == user_uuid and record[5] == 0:
         with conn:
             c.execute("UPDATE records SET active = 0 WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
-        return "Record {record_uuid} set inactive by receiver {user_uuid}", 200
+        return f"Record {record_uuid} set inactive by receiver {user_uuid}", 200
 
 def receiver_paid(user_UUID, record_UUID):   # receiver marks record as already being paid
     c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_UUID})
@@ -232,6 +232,7 @@ def protected(current_user):
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 
+'''
 #creating users table:
 c.execute("""CREATE TABLE users (
             UUID string not null primary key,
@@ -257,3 +258,4 @@ c.execute("""CREATE TABLE records (
             FOREIGN KEY (creator_id) REFERENCES users (UUID),
             FOREIGN KEY (receiver_id) REFERENCES users (UUID)
             )""")
+'''

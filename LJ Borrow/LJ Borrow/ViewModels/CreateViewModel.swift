@@ -8,15 +8,33 @@
 import Foundation
 
 class CreateViewModel: ObservableObject {
-    @Published var amount: String = ""
-    @Published var isBorrowing: Bool = true
-    @Published var receiverName: String = ""
-    @Published var note: String = ""
-    @Published var errorMessage: String = ""
+    @Published var amount = ""
+    @Published var isBorrowing = true
+    @Published var receiverName = ""
+    @Published var note = ""
+    @Published var errorMessage = ""
+    @Published var showingCreatedRecord = false
+    @Published var badAmount = 0
+    @Published var badReceiverName = 0
+    @Published var badNote = 0
+    
 
     func newRecordAPIcall() async {
+        
+        errorMessage = ""
+        badAmount = 0
+        badReceiverName = 0
+        badNote = 0
+        
+        guard let amountDouble = Double(amount), amountDouble < Double(Int.max) else {
+                    errorMessage = "Amount is too large"
+                    badAmount = 2
+                    return
+                }
+        
         guard let amountDouble = Double(amount), amountDouble >= 0 else {
                     errorMessage = "Please enter a valid amount"
+                    badAmount = 2
                     return
                 }
                 
@@ -25,15 +43,15 @@ class CreateViewModel: ObservableObject {
         
         guard !receiverName.isEmpty else {
             errorMessage = "Please enter the other user's name"
+            badReceiverName = 2
             return
         }
         
         guard !note.isEmpty else {
             errorMessage = "Please enter a note"
+            badNote = 2
             return
         }
-        
-        errorMessage = ""
         
         let formattedNote = note.isEmpty ? "null" : note
         
@@ -51,10 +69,16 @@ class CreateViewModel: ObservableObject {
                 switch httpResponse.statusCode {
                     case 400:
                         errorMessage = "Receiver must be different from creator"
+                        badReceiverName = 2
                     case 404:
                         errorMessage = "Target user not found"
+                        badReceiverName = 2
                     case 200:
-                        errorMessage = "Succesfully created new record"
+                        showingCreatedRecord = true
+                        errorMessage = ""
+                        badAmount = 0
+                        badReceiverName = 0
+                        badNote = 0
                     default:
                         errorMessage = "Received status code \(httpResponse.statusCode)"
                 }
