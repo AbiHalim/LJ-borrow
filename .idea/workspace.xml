@@ -4,12 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2777bb6a-0dc1-49dd-868d-5093236cd68b" name="Changes" comment="Unit testing issue fixes + Create new record pop up">
+    <list default="true" id="2777bb6a-0dc1-49dd-868d-5093236cd68b" name="Changes" comment="Pop up when you click on record to view detailed record view">
+      <change afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/UserSearchPopup.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.pbxproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.xcworkspace/xcuserdata/abi.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow.xcodeproj/project.xcworkspace/xcuserdata/abi.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/MainView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/MainView.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/CreateView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/CreateView.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/Record.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/Record.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/RecordsView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/RecordsView.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ViewModels/CreateViewModel.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ViewModels/CreateViewModel.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ViewModels/RecordsViewModel.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LJ Borrow/LJ Borrow/ViewModels/RecordsViewModel.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Python SQLite Backend and Database/lj_borrow.db" beforeDir="false" afterPath="$PROJECT_DIR$/Python SQLite Backend and Database/lj_borrow.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python SQLite Backend and Database/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python SQLite Backend and Database/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +77,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720576314871</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Pop up when you click on record to view detailed record view">
+      <option name="closed" value="true" />
+      <created>1720776106750</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1720776106750</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -90,6 +104,7 @@
     <MESSAGE value="Log in and Register Account" />
     <MESSAGE value="Username must not be taken" />
     <MESSAGE value="Unit testing issue fixes + Create new record pop up" />
-    <option name="LAST_COMMIT_MESSAGE" value="Unit testing issue fixes + Create new record pop up" />
+    <MESSAGE value="Pop up when you click on record to view detailed record view" />
+    <option name="LAST_COMMIT_MESSAGE" value="Pop up when you click on record to view detailed record view" />
   </component>
 </project>

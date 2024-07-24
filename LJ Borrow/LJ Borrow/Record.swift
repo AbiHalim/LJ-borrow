@@ -22,7 +22,7 @@ struct Record: Identifiable, Codable {
     var note: String
     
     var typeDescription: String {
-        type != 0 ? "Lent" : "Borrowed"
+        (type == 1 && creator_id == UserSession.shared.userUUID || type == 0 && receiver_id == UserSession.shared.userUUID) ? "Lent" : "Borrowed"
     }
     
     var adjustedAmount: Double {

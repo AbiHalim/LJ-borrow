@@ -22,6 +22,7 @@
 		007F43A42C12A20E00F5DFF5 /* RecordsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007F43A32C12A20E00F5DFF5 /* RecordsViewModel.swift */; };
 		00B6AEFC2C2AA59E00B41401 /* DecimalTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B6AEFB2C2AA59E00B41401 /* DecimalTextField.swift */; };
 		00B6AEFE2C2AAF0600B41401 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B6AEFD2C2AAF0600B41401 /* Record.swift */; };
+		00DA5C0B2C4F589600B1C72B /* UserSearchPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DA5C0A2C4F589600B1C72B /* UserSearchPopup.swift */; };
 		00DBB4A82C16A1F500595726 /* CreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DBB4A72C16A1F500595726 /* CreateView.swift */; };
 		00DBB4AA2C16A1F900595726 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DBB4A92C16A1F900595726 /* ProfileView.swift */; };
 		00DBB4AC2C16A20700595726 /* CreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DBB4AB2C16A20700595726 /* CreateViewModel.swift */; };
@@ -66,6 +67,7 @@
 		007F43A32C12A20E00F5DFF5 /* RecordsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsViewModel.swift; sourceTree = "<group>"; };
 		00B6AEFB2C2AA59E00B41401 /* DecimalTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalTextField.swift; sourceTree = "<group>"; };
 		00B6AEFD2C2AAF0600B41401 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
+		00DA5C0A2C4F589600B1C72B /* UserSearchPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchPopup.swift; sourceTree = "<group>"; };
 		00DBB4A72C16A1F500595726 /* CreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateView.swift; sourceTree = "<group>"; };
 		00DBB4A92C16A1F900595726 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		00DBB4AB2C16A20700595726 /* CreateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewModel.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				0075B8262C0B0990009B0E21 /* Preview Content */,
 				0002B78E2C115A1100132806 /* Other */,
 				007F43A12C12A20400F5DFF5 /* RecordsView.swift */,
+				00DA5C0A2C4F589600B1C72B /* UserSearchPopup.swift */,
 				00DBB4A72C16A1F500595726 /* CreateView.swift */,
 				00DBB4B52C16AD5C00595726 /* MainView.swift */,
 				00DBB4A92C16A1F900595726 /* ProfileView.swift */,
@@ -323,6 +326,7 @@
 				0075B8222C0B098E009B0E21 /* LoginView.swift in Sources */,
 				007F43A42C12A20E00F5DFF5 /* RecordsViewModel.swift in Sources */,
 				00B6AEFC2C2AA59E00B41401 /* DecimalTextField.swift in Sources */,
+				00DA5C0B2C4F589600B1C72B /* UserSearchPopup.swift in Sources */,
 				00DBB4AC2C16A20700595726 /* CreateViewModel.swift in Sources */,
 				00DBB4AE2C16A20D00595726 /* ProfileViewModel.swift in Sources */,
 				007F43A22C12A20400F5DFF5 /* RecordsView.swift in Sources */,

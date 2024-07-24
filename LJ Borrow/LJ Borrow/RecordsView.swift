@@ -61,9 +61,43 @@ struct RecordsView: View {
                             )
                             .padding(.top, 15)
                             .onTapGesture {
-                                selectedRecord = record
-                                showingRecordDetails = true
+                                if record.active == 1 {
+                                    selectedRecord = record
+                                    showingRecordDetails = true
+                                }
                             }
+                        
+                        if (record.confirmed == 0 && record.receiver_id == UserSession.shared.userUUID) {
+                            HStack {
+                                Button("Confirm") {
+                                    Task {
+                                        await viewModel.confirmAPIcall(record_id: record.id)
+                                        await viewModel.fetchRecords()
+                                    }
+                                }
+                                .padding(20)
+                                .padding(.horizontal, 15)
+                                .background(Color.green)
+                                .foregroundColor(Color.white)
+                                .cornerRadius(10)
+                                .frame(width: 200, height: 50)
+                                .padding(.trailing, -20)
+                                .padding(.top, 5)
+                                Button("Reject") {
+                                    Task {
+                                        await viewModel.rejectRecordAPIcall(record_id: record.id)
+                                        await viewModel.fetchRecords()
+                                    }
+                                }
+                                .padding(20)
+                                .padding(.horizontal, 15)
+                                .background(Color.red)
+                                .foregroundColor(Color.white)
+                                .cornerRadius(8)
+                                .frame(width: 200, height: 50)
+                                .padding(.top, 5)
+                            }
+                        }
                     }
                 }
                 .refreshable {
@@ -71,6 +105,7 @@ struct RecordsView: View {
                     viewModel.errorMessage = ""
                 }
                 .navigationTitle("Records")
+                .scrollContentBackground(.hidden)
             }
 
             if let record = selectedRecord, showingRecordDetails {
@@ -79,21 +114,25 @@ struct RecordsView: View {
                         .font(.headline)
                         .padding()
 
-                    Text("Amount: \(record.adjustedAmount, specifier: "%.2f")")
+                    Text("Amount: $\(record.adjustedAmount, specifier: "%.2f")")
                     Text("Type: \(record.typeDescription)")
-                    Text("Associated Name: \(record.associated_name)")
+                    Text("User: \(record.associated_name)")
                     Text("Note: \(record.note)")
 
                     HStack {
-                        if record.creator_id == UserSession.shared.userUUID {
-                            Button("Mark as Paid") {
-                                // Implement mark as paid logic
-                            }
-                            .padding()
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .padding(.trailing)
+                        if record.type == 1 {
+                            Button(action: {
+                                Task {
+                                    await viewModel.markPaidAPIcall(record_id: record.id)
+                                    viewModel.fetchRecords()
+                                }
+                            }) {
+                                Text("Mark as Paid")
+                                    .padding()
+                                    .background(Color.green)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                        }
 
                             Button("Remind") {
                                 // Implement remind logic
@@ -102,14 +141,19 @@ struct RecordsView: View {
                             .background(Color.blue)
                             .foregroundColor(.white)
                             .cornerRadius(10)
-                        } else if record.receiver_id == UserSession.shared.userUUID {
-                            Button("Mark as Paid") {
-                                // Implement mark as paid logic
-                            }
-                            .padding()
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                        } else {
+                            Button(action: {
+                                Task {
+                                    await viewModel.markPaidAPIcall(record_id: record.id)
+                                    viewModel.fetchRecords()
+                                }
+                            }) {
+                                Text("Mark as Paid")
+                                    .padding()
+                                    .background(Color.green)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                        }
                         }
                     }
                     .padding()

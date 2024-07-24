@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct CreateView: View {
-    
     @StateObject var viewModel = CreateViewModel()
     @StateObject var recordsViewModel = RecordsViewModel()
-    
+    @State private var searchText = ""
+
     var body: some View {
         ZStack {
             Image("LJ Borrow main page background")
                 .resizable()
                 .edgesIgnoringSafeArea(.all)
-            
+
             VStack {
                 Image("LJ Borrow Create Page Cartoon 1")
                     .scaleEffect(0.45)
@@ -30,7 +30,7 @@ struct CreateView: View {
                     .font(.system(size: 20, weight: .semibold, design: .rounded))
                     .padding(.top, -10)
                     .padding(.bottom, -100)
-                
+
                 // Error Message
                 if !viewModel.errorMessage.isEmpty {
                     Text(viewModel.errorMessage)
@@ -42,8 +42,7 @@ struct CreateView: View {
                         .offset(y: 25)
                         .hidden()
                 }
-                
-                // Amount Input
+
                 DecimalTextField(text: $viewModel.amount, placeholder: "$0.00")
                     .padding()
                     .background(Color.white)
@@ -54,7 +53,7 @@ struct CreateView: View {
                     .frame(width: 275, height: 40)
                     .padding(.top, 50)
                     .autocapitalization(.none)
-                
+
                 TextField("Enter other user's name", text: $viewModel.receiverName)
                     .padding()
                     .background(Color.white)
@@ -65,7 +64,11 @@ struct CreateView: View {
                     .frame(width: 275, height: 40)
                     .padding(.top, 25)
                     .autocapitalization(.none)
-                
+                    .onTapGesture {
+                        viewModel.showingUserSearchPopup = true
+                        viewModel.fetchUsernames()
+                    }
+
                 TextField("Add a note", text: $viewModel.note)
                     .padding()
                     .background(Color.white)
@@ -77,7 +80,7 @@ struct CreateView: View {
                     .padding(.top, 25)
                     .padding(.bottom, 20)
                     .autocapitalization(.none)
-                
+
                 Picker("Type", selection: $viewModel.isBorrowing) {
                     Text("Borrowed").tag(true)
                     Text("Lent").tag(false)
@@ -91,7 +94,7 @@ struct CreateView: View {
                 .overlay(RoundedRectangle(cornerRadius: 5)
                             .stroke(Color.gray, lineWidth: 1.5)
                         )
-                
+
                 Button(action: {
                     Task {
                         await viewModel.newRecordAPIcall()
@@ -109,55 +112,65 @@ struct CreateView: View {
             }
             ZStack {
                 if viewModel.showingCreatedRecord {
-                Color.clear
-                  .ignoresSafeArea()
+                    Color.clear
+                        .ignoresSafeArea()
 
-                ZStack {
-                  VStack {
-                      HStack {
-                          Text("Succesfully created record")
-                              .multilineTextAlignment(.center)
-                              .foregroundColor(Color.black)
-                              .font(.system(size: 24))
-                      }
-                    .padding(.bottom, 20)
-                    .padding(.horizontal, 70)
+                    ZStack {
+                        VStack {
+                            HStack {
+                                Text("Succesfully created record")
+                                    .multilineTextAlignment(.center)
+                                    .foregroundColor(Color.black)
+                                    .font(.system(size: 24))
+                            }
+                            .padding(.bottom, 20)
+                            .padding(.horizontal, 70)
 
-                    HStack {
-                      Button(action: {
-                          viewModel.showingCreatedRecord = false
-                          viewModel.amount = ""
-                          viewModel.isBorrowing = true
-                          viewModel.receiverName = ""
-                          viewModel.note = ""
-                      }, label: {
-                        Text("Ok")
-                          .foregroundColor(Color.white)
-                          .padding(.top, 15)
-                          .padding(.bottom, 15)
-                          .padding(.trailing, 55)
-                          .padding(.leading, 55)
-                          .background(Color.blue)
-                          .cornerRadius(5)
-                          .shadow(color: Color.black.opacity(0.07), radius: 40, x: 0, y: 5)
-                      })
+                            HStack {
+                                Button(action: {
+                                    viewModel.showingCreatedRecord = false
+                                    viewModel.amount = ""
+                                    viewModel.isBorrowing = true
+                                    viewModel.receiverName = ""
+                                    viewModel.note = ""
+                                }, label: {
+                                    Text("Ok")
+                                        .foregroundColor(Color.white)
+                                        .padding(.top, 15)
+                                        .padding(.bottom, 15)
+                                        .padding(.trailing, 55)
+                                        .padding(.leading, 55)
+                                        .background(Color.blue)
+                                        .cornerRadius(5)
+                                        .shadow(color: Color.black.opacity(0.07), radius: 40, x: 0, y: 5)
+                                })
+                            }
+                            .padding(.bottom, 0)
+                            .padding(.horizontal, 35)
+                            .padding(.top, 15)
+                        }
                     }
-                    .padding(.bottom, 0)
-                    .padding(.horizontal, 35)
-                    .padding(.top, 15)
-                  }
+                    .frame(height: 250)
+                    .frame(width: 350)
+                    .background(Color.white)
+                    .cornerRadius(25)
+                    .padding(.horizontal, 30)
+                    .shadow(color: Color.black.opacity(0.3), radius: 20, x: 0, y: 5)
                 }
-                .frame(height: 250)
-                .frame(width: 350)
-                .background(Color.white)
-                .cornerRadius(25)
-                .padding(.horizontal, 30)
-                .shadow(color: Color.black.opacity(0.3), radius: 20, x: 0, y: 5)
-
-              }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
             .ignoresSafeArea()
+
+            if viewModel.showingUserSearchPopup {
+                UserSearchPopup(
+                    searchText: $searchText,
+                    users: viewModel.usernames,
+                    onClose: {
+                        viewModel.showingUserSearchPopup = false
+                        viewModel.receiverName = searchText
+                    }
+                )
+            }
         }
     }
 }

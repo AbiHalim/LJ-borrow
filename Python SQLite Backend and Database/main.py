@@ -91,6 +91,14 @@ def register_account(username, email, password_hash):
 
     return 'Succesfully made new account', 200
 
+@app.route('/get_usernames/', methods=['GET'])
+def get_user_names():  # change with new logic
+    with conn:
+        c.execute("SELECT username FROM users")
+        users = c.fetchall()
+        user_names = [user[0] for user in users]
+    return jsonify(user_names), 200
+
 # go to localhost:5000//create_record/uuid=<int:UUID>&type=<int:type>&creator_id=<int:creator_id>&receiver_id=<int:receiver_id>&receiver_name=<string:receiver_name>&date_created=<int:date_created>&amount=<int:amount>&note=<string:note>/ to make new record
 @app.route('/create_record/uuid=<string:UUID>&type=<int:type>&creator_id=<string:creator_id>&receiver_id=<string:receiver_id>&receiver_name=<string:receiver_name>&date_created=<int:date_created>&amount=<int:amount>&note=<string:note>/', methods=['GET'])
 def create_record(UUID, type, creator_id, receiver_id, receiver_name, date_created, amount, note):   # function to insert a python object of class Record into database
@@ -179,37 +187,20 @@ def reject_record(user_uuid, record_uuid):
             c.execute("UPDATE records SET active = 0 WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
         return f"Record {record_uuid} set inactive by receiver {user_uuid}", 200
 
-def receiver_paid(user_UUID, record_UUID):   # receiver marks record as already being paid
-    c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_UUID})
+@app.route('/mark_paid/user_uuid=<string:user_uuid>&record_uuid=<string:record_uuid>/', methods=['GET'])
+def mark_paid(user_uuid, record_uuid):   # receiver marks record as already being paid
+    c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
     record = c.fetchone()
-    if not record:
-        raise Exception(f"Record {record_UUID} not found!")
-    if record[3] != user_UUID:
-        raise Exception(f"User {user_UUID} is not receiver of record {record_UUID}!")
-    if record[6] != 0:
-        raise Exception(f"Receiver {user_UUID} already marked record {record_UUID} as paid!")
-    elif record[3] == user_UUID and record[6] == 0:
+    if record[2] == user_uuid and record[7] == 0:
         with conn:
-            c.execute("UPDATE records SET receiver_paid = 1 WHERE UUID = :record_UUID", {'record_UUID' : record_UUID})
-        print(f'Receiver {user_UUID} marked record {record_UUID} as paid')
-        check_valid(record_UUID)
-        pass
-
-def creator_paid(user_UUID, record_UUID):   # creator marks record as already being paid
-    c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_UUID})
-    record = c.fetchone()
-    if not record:
-        raise Exception(f"Record {record_UUID} not found!")
-    if record[2] != user_UUID:
-        raise Exception(f"User {user_UUID} is not creator of record {record_UUID}!")
-    if record[7] != 0:
-        raise Exception(f"Creator {user_UUID} already marked record {record_UUID} as paid!")
-    elif record[2] == user_UUID and record[7] == 0:
+            c.execute("UPDATE records SET creator_paid = 1 WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
+    elif record[3] == user_uuid and record[6] == 0:
         with conn:
-            c.execute("UPDATE records SET creator_paid = 1 WHERE UUID = :record_UUID", {'record_UUID' : record_UUID})
-        print(f'Creator {user_UUID} marked record {record_UUID} as paid')
-        check_valid(record_UUID)
-        pass
+            c.execute("UPDATE records SET receiver_paid = 1 WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
+    else:
+        return "Record is already paid or user is not associated with record", 409
+    check_valid(record_uuid)
+    return f"{user_uuid} marked record {record_uuid} as paid", 200
 
 def check_valid(record_UUID):   # checks if both receiver and creator marked record as being paid, then makes record inactive
     c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_UUID})
@@ -227,7 +218,6 @@ def check_valid(record_UUID):   # checks if both receiver and creator marked rec
 @token_required
 def protected(current_user):
     return jsonify({'message': 'This is protected', 'user': current_user.username})
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
