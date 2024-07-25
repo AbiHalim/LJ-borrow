@@ -81,7 +81,6 @@ struct RecordsView: View {
                                 .foregroundColor(Color.white)
                                 .cornerRadius(10)
                                 .frame(width: 200, height: 50)
-                                .padding(.trailing, -20)
                                 .padding(.top, 5)
                                 Button("Reject") {
                                     Task {
@@ -120,20 +119,40 @@ struct RecordsView: View {
                     Text("Note: \(record.note)")
 
                     HStack {
-                        if record.type == 1 {
+                        
+                        if record.creator_id == UserSession.shared.userUUID {
                             Button(action: {
                                 Task {
                                     await viewModel.markPaidAPIcall(record_id: record.id)
                                     viewModel.fetchRecords()
+                                    showingRecordDetails = false
                                 }
                             }) {
                                 Text("Mark as Paid")
                                     .padding()
-                                    .background(Color.green)
+                                    .background(record.creator_paid == 1 ? Color.gray : Color.green)
                                     .foregroundColor(.white)
                                     .cornerRadius(10)
+                            }
+                            .disabled(record.creator_paid == 1)
+                        } else if record.receiver_id == UserSession.shared.userUUID {
+                            Button(action: {
+                                Task {
+                                    await viewModel.markPaidAPIcall(record_id: record.id)
+                                    viewModel.fetchRecords()
+                                    showingRecordDetails = false
+                                }
+                            }) {
+                                Text("Mark as Paid")
+                                    .padding()
+                                    .background(record.receiver_paid == 1 ? Color.gray : Color.green)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                            }
+                            .disabled(record.receiver_paid == 1)
                         }
-
+                        
+                        if record.type == 1 && record.creator_id == UserSession.shared.userUUID || record.type == 0 && record.receiver_id == UserSession.shared.userUUID {
                             Button("Remind") {
                                 // Implement remind logic
                             }
@@ -141,19 +160,6 @@ struct RecordsView: View {
                             .background(Color.blue)
                             .foregroundColor(.white)
                             .cornerRadius(10)
-                        } else {
-                            Button(action: {
-                                Task {
-                                    await viewModel.markPaidAPIcall(record_id: record.id)
-                                    viewModel.fetchRecords()
-                                }
-                            }) {
-                                Text("Mark as Paid")
-                                    .padding()
-                                    .background(Color.green)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
-                        }
                         }
                     }
                     .padding()

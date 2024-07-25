@@ -157,8 +157,9 @@ def get_records(user_uuid):
 
 @app.route('/confirm_record/user_uuid=<string:user_uuid>&record_uuid=<string:record_uuid>/', methods=['GET'])
 def confirm_record(user_uuid, record_uuid):
-    c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
-    record = c.fetchone()
+    with conn:
+        c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
+        record = c.fetchone()
 
     if not record:
         return f"Record {record_uuid} not found!", 404
@@ -173,8 +174,9 @@ def confirm_record(user_uuid, record_uuid):
 
 @app.route('/reject_record/user_uuid=<string:user_uuid>&record_uuid=<string:record_uuid>/', methods=['GET'])
 def reject_record(user_uuid, record_uuid):
-    c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
-    record = c.fetchone()
+    with conn:
+        c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
+        record = c.fetchone()
 
     if not record:
         return f"Record {record_uuid} not found!", 404
