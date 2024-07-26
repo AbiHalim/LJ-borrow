@@ -25,6 +25,7 @@ struct RecordsView: View {
                     .foregroundColor(.black)
                     .padding(.top, 50)
 
+                /*
                 if !viewModel.errorMessage.isEmpty {
                     Text(viewModel.errorMessage)
                         .foregroundColor(.red)
@@ -35,6 +36,7 @@ struct RecordsView: View {
                         .offset(y: 25)
                         .hidden()
                 }
+                */
 
                 List(viewModel.records) { record in
                     VStack {

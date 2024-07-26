@@ -13,6 +13,7 @@ from itsdangerous import URLSafeTimedSerializer as Serializer, BadSignature, Sig
 from functools import wraps
 
 app = Flask(__name__)   # uses Flask to make RESTful API
+app = Flask(__name__)   # uses Flask to make RESTful API
 app.config['SECRET_KEY'] = 'lengjai'
 
 # Generate token for app log in
@@ -150,10 +151,14 @@ def get_records(user_uuid):
         if record['receiver_id'] == user_uuid:
             c.execute("SELECT username FROM users WHERE UUID = :creator_id", {'creator_id': record['creator_id']})
             record['associated_name'] = c.fetchone()[0]
+            record_month = int(record['date_created'][5:7])
+            if record_month < date.today().month:
+                remind(record['id'])
 
-    records_list.reverse()
+    sorted_records_list = sorted(records_list, key=lambda d: (d['reminder'], d['active']))
+    sorted_records_list.reverse()
 
-    return jsonify(records_list)
+    return jsonify(sorted_records_list)
 
 @app.route('/confirm_record/user_uuid=<string:user_uuid>&record_uuid=<string:record_uuid>/', methods=['GET'])
 def confirm_record(user_uuid, record_uuid):
