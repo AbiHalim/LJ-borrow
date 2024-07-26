@@ -155,5 +155,59 @@ class RecordsViewModel: ObservableObject {
         }
     }
     
+    func remindAPIcall(record_id: String) async {
+        let urlString = "http://localhost:5000/remind/record_uuid=\(record_id)/"
+        
+        guard let url = URL(string: urlString) else {
+            errorMessage = "Failed to create URL"
+            return
+        }
+        
+        do {
+            let (_, response) = try await URLSession(configuration: .default).data(from: url)
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                switch httpResponse.statusCode {
+                    case 200:
+                        break
+                    default:
+                        errorMessage = "Received status code \(httpResponse.statusCode)"
+                }
+            } else {
+                errorMessage = "Invalid response received"
+            }
+            
+        } catch {
+            errorMessage = "Failed to perform API call: \(error)"
+        }
+    }
+    
+    func clearReminderAPIcall(record_id: String) async {
+        let urlString = "http://localhost:5000/clear_reminder/record_uuid=\(record_id)/"
+        
+        guard let url = URL(string: urlString) else {
+            errorMessage = "Failed to create URL"
+            return
+        }
+        
+        do {
+            let (_, response) = try await URLSession(configuration: .default).data(from: url)
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                switch httpResponse.statusCode {
+                    case 200:
+                        break
+                    default:
+                        errorMessage = "Received status code \(httpResponse.statusCode)"
+                }
+            } else {
+                errorMessage = "Invalid response received"
+            }
+            
+        } catch {
+            errorMessage = "Failed to perform API call: \(error)"
+        }
+    }
+    
     
 }

@@ -29,7 +29,6 @@ struct RecordsView: View {
                     Text(viewModel.errorMessage)
                         .foregroundColor(.red)
                         .padding()
-                        .hidden() // error message only for debugging
                 } else {
                     Text("Bruh")
                         .foregroundColor(.red)
@@ -39,40 +38,60 @@ struct RecordsView: View {
 
                 List(viewModel.records) { record in
                     VStack {
-                        RoundedRectangle(cornerRadius: 30)
-                            .fill(Color.white.opacity(1))
-                            .frame(width: 350, height: 125)
-                            .overlay(
-                                VStack {
-                                    Text(record.active != 0 ? "Active" : "Inactive")
-                                        .font(.system(size: 25, weight: .bold, design: .rounded))
-                                    Text("\(record.typeDescription) $\(record.adjustedAmount, specifier: "%.2f") on \(record.date_created)")
-                                        .font(.system(size: 20, weight: .semibold, design: .rounded))
-                                    Text(record.associated_name)
-                                        .font(.system(size: 20, weight: .semibold, design: .rounded))
-                                    Text(record.note)
-                                        .font(.system(size: 20, weight: .semibold, design: .rounded))
+                        ZStack(alignment: .topLeading) {
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(record.active == 1 ? Color.clear : Color.gray.opacity(0.3))
+                                .frame(width: 350, height: 125)
+                                .overlay(
+                                    VStack {
+                                        Text("$\(record.adjustedAmount, specifier: "%.2f")")
+                                            .font(.system(size: 25, weight: .bold, design: .rounded))
+                                        Text("\(record.typeDescription) on \(record.date_created)")
+                                            .font(.system(size: 20, weight: .semibold, design: .rounded))
+                                        Text(record.associated_name)
+                                            .font(.system(size: 20, weight: .semibold, design: .rounded))
+                                        Text(record.note)
+                                            .font(.system(size: 20, weight: .semibold, design: .rounded))
+                                        Text(record.active == 1 ? "Active" : "Inactive")
+                                            .font(.system(size: 20, weight: .regular, design: .rounded))
+                                    }
+                                    .foregroundColor(.black)
+                                    .padding()
+                                )
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 20).stroke(Color.gray, lineWidth: 3)
+                                )
+                                .padding(.top, 15)
+                                .onTapGesture {
+                                    if record.active == 1 {
+                                        selectedRecord = record
+                                        showingRecordDetails = true
+                                        if record.type == 0 && record.creator_id == UserSession.shared.userUUID || record.type == 1 && record.receiver_id == UserSession.shared.userUUID {
+                                            Task {
+                                                await viewModel.clearReminderAPIcall(record_id: record.id)
+                                                viewModel.fetchRecords()
+                                            }
+                                        }
+                                    }
                                 }
-                                .foregroundColor(.black)
-                                .padding()
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 20).stroke(Color.gray, lineWidth: 3)
-                            )
-                            .padding(.top, 15)
-                            .onTapGesture {
-                                if record.active == 1 {
-                                    selectedRecord = record
-                                    showingRecordDetails = true
-                                }
+
+                            if record.reminder == 1 && (record.type == 0 && record.creator_id == UserSession.shared.userUUID || record.type == 1 && record.receiver_id == UserSession.shared.userUUID) {
+                                Circle()
+                                    .fill(Color.red)
+                                    .frame(width: 20, height: 20)
+                                    .offset(x: 10, y: 25)
+                                    .padding(.top, -15)
+                                    .padding(.leading, -15)
                             }
+                        }
+
                         
                         if (record.confirmed == 0 && record.receiver_id == UserSession.shared.userUUID) {
                             HStack {
                                 Button("Confirm") {
                                     Task {
                                         await viewModel.confirmAPIcall(record_id: record.id)
-                                        await viewModel.fetchRecords()
+                                        viewModel.fetchRecords()
                                     }
                                 }
                                 .padding(20)
@@ -85,7 +104,7 @@ struct RecordsView: View {
                                 Button("Reject") {
                                     Task {
                                         await viewModel.rejectRecordAPIcall(record_id: record.id)
-                                        await viewModel.fetchRecords()
+                                        viewModel.fetchRecords()
                                     }
                                 }
                                 .padding(20)
@@ -154,10 +173,15 @@ struct RecordsView: View {
                         
                         if record.type == 1 && record.creator_id == UserSession.shared.userUUID || record.type == 0 && record.receiver_id == UserSession.shared.userUUID {
                             Button("Remind") {
-                                // Implement remind logic
+                                Task {
+                                    await viewModel.remindAPIcall(record_id: record.id)
+                                    viewModel.fetchRecords()
+                                    showingRecordDetails = false
+                                }
                             }
+                            .disabled(record.reminder == 1)
                             .padding()
-                            .background(Color.blue)
+                            .background(record.reminder == 1 ? Color.gray : Color.blue)
                             .foregroundColor(.white)
                             .cornerRadius(10)
                         }

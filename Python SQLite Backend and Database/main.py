@@ -102,10 +102,10 @@ def get_user_names():  # change with new logic
 # go to localhost:5000//create_record/uuid=<int:UUID>&type=<int:type>&creator_id=<int:creator_id>&receiver_id=<int:receiver_id>&receiver_name=<string:receiver_name>&date_created=<int:date_created>&amount=<int:amount>&note=<string:note>/ to make new record
 @app.route('/create_record/uuid=<string:UUID>&type=<int:type>&creator_id=<string:creator_id>&receiver_id=<string:receiver_id>&receiver_name=<string:receiver_name>&date_created=<int:date_created>&amount=<int:amount>&note=<string:note>/', methods=['GET'])
 def create_record(UUID, type, creator_id, receiver_id, receiver_name, date_created, amount, note):   # function to insert a python object of class Record into database
-    new_record = Record(UUID, type, creator_id, receiver_id, receiver_name, 0, 0, 0, 1, date_created, amount, note)
+    new_record = Record(UUID, type, creator_id, receiver_id, receiver_name, 0, 0, 0, 1, 1, date_created, amount, note)
     with conn:
-        c.execute("INSERT INTO records VALUES (:UUID, :type, :creator_id, :receiver_id, :receiver_name, :confirmed, :receiver_paid, :creator_paid, :active, :date_created, :amount, :note)",
-                  {'UUID':new_record.UUID, 'type':new_record.type, 'creator_id':new_record.creator_id, 'receiver_id':new_record.receiver_id, 'receiver_name':new_record.receiver_name, 'confirmed':0, 'receiver_paid':0, 'creator_paid':0, 'active':1, 'date_created':new_record.date_created, 'amount':new_record.amount, 'note':new_record.note})
+        c.execute("INSERT INTO records VALUES (:UUID, :type, :creator_id, :receiver_id, :receiver_name, :confirmed, :receiver_paid, :creator_paid, :active, :reminder, :date_created, :amount, :note)",
+                  {'UUID':new_record.UUID, 'type':new_record.type, 'creator_id':new_record.creator_id, 'receiver_id':new_record.receiver_id, 'receiver_name':new_record.receiver_name, 'confirmed':0, 'receiver_paid':0, 'creator_paid':0, 'active':1, 'reminder':1, 'date_created':new_record.date_created, 'amount':new_record.amount, 'note':new_record.note})
     return f"Succesfully created new record <br>UUID: {new_record.UUID} <br>type: {new_record.type} <br>creator_id: {new_record.creator_id} <br>receiver_id: {new_record.receiver_id} <br>receiver_name: {new_record.receiver_name} <br>date_created: {new_record.date_created} <br>amount: {new_record.amount} <br>note: {new_record.note}"
 
 # go to localhost:5000//delete_record/record_uuid=<int:record_UUID>/ to delete record
@@ -142,7 +142,7 @@ def get_records(user_uuid):
     records = c.fetchall()
 
     #convert records to proper json format
-    keys = ['id', 'type', 'creator_id', 'receiver_id', 'associated_name', 'confirmed', 'receiver_paid', 'creator_paid', 'active', 'date_created', 'amount', 'note']
+    keys = ['id', 'type', 'creator_id', 'receiver_id', 'associated_name', 'confirmed', 'receiver_paid', 'creator_paid', 'active', 'reminder', 'date_created', 'amount', 'note']
     records_list = [dict(zip(keys, record)) for record in records]
 
     # check if receiver == logged-in user, then change associated_name to creator name
@@ -204,6 +204,34 @@ def mark_paid(user_uuid, record_uuid):   # receiver marks record as already bein
     check_valid(record_uuid)
     return f"{user_uuid} marked record {record_uuid} as paid", 200
 
+@app.route('/remind/record_uuid=<string:record_uuid>/', methods=['GET'])
+def remind(record_uuid):
+    with conn:
+        c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
+        record = c.fetchone()
+    if record[9] == 0:
+        with conn:
+            c.execute("UPDATE records SET reminder = 1 WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
+        return "Succesfully set reminder", 200
+    elif record[9] == 1:
+        return "Record already has reminder", 409
+    else:
+        return "Error", 404
+
+@app.route('/clear_reminder/record_uuid=<string:record_uuid>/', methods=['GET'])
+def clear_reminder(record_uuid):
+    with conn:
+        c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
+        record = c.fetchone()
+    if record[9] == 1:
+        with conn:
+            c.execute("UPDATE records SET reminder = 0 WHERE UUID = :record_UUID", {'record_UUID' : record_uuid})
+        return "Succesfully cleared reminder", 200
+    elif record[9] == 0:
+        return "Record has no reminder", 409
+    else:
+        return "Error", 404
+
 def check_valid(record_UUID):   # checks if both receiver and creator marked record as being paid, then makes record inactive
     c.execute("SELECT * FROM records WHERE UUID = :record_UUID", {'record_UUID' : record_UUID})
     record = c.fetchone()
@@ -244,6 +272,7 @@ c.execute("""CREATE TABLE records (
             receiver_paid int not null,
             creator_paid int not null,
             active int not null,
+            reminder int not null,
             date_created int,
             amount real not null,
             note text,

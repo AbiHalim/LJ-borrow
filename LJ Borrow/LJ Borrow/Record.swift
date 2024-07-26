@@ -17,6 +17,7 @@ struct Record: Identifiable, Codable {
     var receiver_paid: Int
     var creator_paid: Int
     var active: Int
+    var reminder: Int
     var date_created: String
     var amount: Double
     var note: String
