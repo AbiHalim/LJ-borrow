@@ -57,4 +57,4 @@ LJ Borrow is an iOS application designed to help users track and manage money bo
 
 ## Additional Resources
 
-For detailed documentation, deployment instructions, and more, please refer to the [full documentation]](https://docs.google.com/document/d/11xayTXj0tiXJqWw_js_8mQDMlyUPW--r8hPQSfYoJDQ/edit)..
+For detailed documentation, deployment instructions, and more, please refer to the [full documentation](https://docs.google.com/document/d/11xayTXj0tiXJqWw_js_8mQDMlyUPW--r8hPQSfYoJDQ/edit).
