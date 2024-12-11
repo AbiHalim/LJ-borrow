@@ -1,6 +1,6 @@
 # LJ Borrow
 
-[Watch the demo video]([https://drive.google.com/drive/u/0/folders/19FWcjrW-nA-mKAudvlq7AsFNXM6dRcnt](https://drive.google.com/file/d/1MjN1GPK0QFAk8sezu9G_3L4pwlUgoCbG/view?usp=sharing)) or [read the full documentation here](https://docs.google.com/document/d/11xayTXj0tiXJqWw_js_8mQDMlyUPW--r8hPQSfYoJDQ/edit).
+[Watch the demo video]([https://drive.google.com/drive/u/0/folders/19FWcjrW-nA-mKAudvlq7AsFNXM6dRcnt](https://drive.google.com/file/d/1MjN1GPK0QFAk8sezu9G_3L4pwlUgoCbG/view?usp=sharing) or [read the full documentation here](https://docs.google.com/document/d/11xayTXj0tiXJqWw_js_8mQDMlyUPW--r8hPQSfYoJDQ/edit).
 
 ## Overview
 
