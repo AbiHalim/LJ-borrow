@@ -1,5 +1,7 @@
 # LJ Borrow
 
+[Watch the demo video](https://drive.google.com/drive/u/0/folders/19FWcjrW-nA-mKAudvlq7AsFNXM6dRcnt) or [read the full documentation here](https://docs.google.com/document/d/11xayTXj0tiXJqWw_js_8mQDMlyUPW--r8hPQSfYoJDQ/edit).
+
 ## Overview
 
 LJ Borrow is an iOS application designed to help users track and manage money borrowed and lent between friends and family. The app ensures that users can record, confirm, and remind each other about financial transactions to avoid conflicts and ensure accurate record-keeping.
